@@ -17,7 +17,7 @@
     ],
     "strengths": [
       "XML → Jetpack Compose migrations and reusable multi-theme design systems",
-      "Maintainable, tested Clean Architecture / MVVM codebases",
+      "Maintainable, tested Clean Architecture / MVVM and MVI codebases",
       "End-to-end product features, in close collaboration with product, design and QA",
       "Production quality: stability, performance and monitoring",
       "An AI-assisted workflow to ship faster without sacrificing code quality"
