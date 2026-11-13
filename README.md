@@ -2,7 +2,7 @@
 
 <p align="center">
   An adaptive resume written once with Compose Multiplatform, running on Android, iOS, Desktop and Web.<br/>
-  Same app as <a href="https://github.com/AntoineMarchaud/TemplateResume">Resume Native</a>, driven by a single JSON file.
+  Same app as <a href="https://github.com/AntoineMarchaud/Resume">Resume Native</a>, driven by a single JSON file.
 </p>
 
 <p align="center">
@@ -29,51 +29,15 @@
 
 ## Screenshots
 
-### Android
+| Android | iOS (French, from the device language) | Web, mobile browser |
+|:---:|:---:|:---:|
+| <img src="screenshots/android_about.png" alt="Android"/> | <img src="screenshots/ios_iphone.png" alt="iPhone, in French"/> | <img src="screenshots/web_mobile.png" alt="Web, mobile browser, dark theme"/> |
 
 <p align="center">
-  <img src="screenshots/android_about.png" width="24%" alt="About"/>
-  <img src="screenshots/android_experience.png" width="24%" alt="Experience timeline"/>
-  <img src="screenshots/android_skills.png" width="24%" alt="Skills"/>
-  <img src="screenshots/android_contact.png" width="24%" alt="Contact"/>
-</p>
-<p align="center">
-  <img src="screenshots/android_dark_about.png" width="24%" alt="About, dark theme"/>
-  <img src="screenshots/android_dark_experience.png" width="24%" alt="Experience, dark theme"/>
-</p>
-
-| Foldable, unfolded | Foldable, tabletop posture |
-|:---:|:---:|
-| <img src="screenshots/android_foldable_unfolded.png" alt="Foldable, unfolded"/> | <img src="screenshots/android_foldable_tabletop.png" alt="Foldable, tabletop posture"/> |
-
-<p align="center">
-  <img src="screenshots/android_tablet.png" width="100%" alt="Android tablet, landscape"/>
-</p>
-
-### iOS
-
-<p align="center">
-  <img src="screenshots/ios_iphone.png" width="24%" alt="iPhone"/>
-  <img src="screenshots/ios_iphone_dark.png" width="24%" alt="iPhone, dark theme"/>
-  <img src="screenshots/ios_ipad_portrait.png" width="24%" alt="iPad 11-inch: navigation rail"/>
-  <img src="screenshots/ios_ipad_two_pane.png" width="24%" alt="iPad 13-inch: two panes"/>
-</p>
-
-### Desktop (JVM)
-
-<p align="center">
-  <img src="screenshots/desktop.png" width="49%" alt="Desktop"/>
-  <img src="screenshots/desktop_dark.png" width="49%" alt="Desktop, dark theme"/>
-</p>
-
-### Web (WebAssembly)
-
-<p align="center">
-  <img src="screenshots/web.png" width="74%" alt="Web, desktop browser"/>
-  <img src="screenshots/web_mobile.png" width="22%" alt="Web, mobile browser"/>
-</p>
-<p align="center">
-  <img src="screenshots/web_dark.png" width="74%" alt="Web, dark theme"/>
+  <img src="screenshots/desktop_dark.png" width="49%" alt="Desktop app, dark theme"/>
+  <img src="screenshots/web.png" width="49%" alt="Web, desktop browser"/>
+  <br/>
+  <sub>Desktop app (JVM) · Web, desktop browser</sub>
 </p>
 
 ## Features
@@ -89,14 +53,16 @@
   | Foldable in book posture | Two panes split exactly at the hinge |
   | Foldable in tabletop posture | Profile above the hinge, content and navigation below |
 
-- **Four sections**: About (summary, strengths, education, languages), Experience (timeline), Skills (tags and usage chart), Contact.
+- **Four sections**: About (client logos, summary, strengths, education, languages), Experience (timeline), Skills (tags and usage chart), Contact.
 - **English and French**: flags in the hero banner switch the language; the default one follows the device or browser language.
 - **Data-driven**: position durations, the "Current" badge and technology usage are computed from the JSON; companies show their logo, or their initials when none is provided.
 - **Polished design system**: custom indigo palette for light and dark themes, Plus Jakarta Sans typography, hairline cards, gradient hero.
 - **Native integration**: edge to edge with transparent system bars on Android, status bar style driven by the content on iOS, Material You colors on Android 12+.
 - **Motion**: collapsing header, staggered entrance animations, expandable cards, animated charts, section transitions.
+- **Selectable text**, to copy a client, a keyword or the email address into an email or an applicant tracking system.
 - **Compose previews** for every section and every adaptive mode (phone, tablet, foldable postures, light and dark), written in common code.
-- **Web ready to share**: link preview (Open Graph image, title and description) and a branded loading screen while the WebAssembly app downloads.
+- **Web ready to share**: link preview (Open Graph image, title and description), a branded loading screen that fades into the app, and the
+  resume as plain HTML with `schema.org` structured data for search engines, as the app itself draws on a canvas.
 
 ## Make it yours
 
