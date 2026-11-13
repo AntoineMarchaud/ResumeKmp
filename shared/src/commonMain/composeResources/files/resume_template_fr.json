@@ -245,7 +245,8 @@
         "Firebase",
         "C++ / Qt"
       ],
-      "appId": "com.digidust.elokence.akinator.freemium"
+      "appId": "com.digidust.elokence.akinator.freemium",
+      "logo": "logos/akinator.png"
     },
     {
       "company": "EBP Informatique",
