@@ -6,6 +6,10 @@
 </p>
 
 <p align="center">
+  <a href="https://antoinemarchaud.github.io/TemplateResumeKmp/"><b>👉 Open the live web version</b></a>
+</p>
+
+<p align="center">
   <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-2.4.21-7F52FF?logo=kotlin&logoColor=white"/>
   <img alt="Compose Multiplatform" src="https://img.shields.io/badge/Compose_Multiplatform-1.12.2-4285F4?logo=jetpackcompose&logoColor=white"/>
   <img alt="AGP" src="https://img.shields.io/badge/AGP-9.5.1-3DDC84?logo=android&logoColor=white"/>
@@ -145,6 +149,9 @@ Files written for the first version of the template (with a free-text `period` i
 | Desktop | `./gradlew :composeApp:run` |
 | Web (WebAssembly) | `./gradlew :composeApp:wasmJsBrowserDevelopmentRun` |
 | Web (JavaScript, older browsers) | `./gradlew :composeApp:jsBrowserDevelopmentRun` |
+
+The web version is deployed to [GitHub Pages](https://antoinemarchaud.github.io/TemplateResumeKmp/) by the
+[`deploy-web`](.github/workflows/deploy-web.yml) workflow on every push to `main`.
 
 ## Architecture
 
