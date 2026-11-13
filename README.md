@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <a href="https://antoinemarchaud.github.io/TemplateResumeKmp/"><b>👉 Open the live web version</b></a>
+  <a href="https://antoinemarchaud.github.io/ResumeKmp/"><b>👉 Open the live web version</b></a>
 </p>
 
 <p align="center">
@@ -150,13 +150,13 @@ Files written for the first version of the template (with a free-text `period` i
 | Web (WebAssembly) | `./gradlew :composeApp:wasmJsBrowserDevelopmentRun` |
 | Web (JavaScript, older browsers) | `./gradlew :composeApp:jsBrowserDevelopmentRun` |
 
-The web version is deployed to [GitHub Pages](https://antoinemarchaud.github.io/TemplateResumeKmp/) by the
+The web version is deployed to [GitHub Pages](https://antoinemarchaud.github.io/ResumeKmp/) by the
 [`deploy-web`](.github/workflows/deploy-web.yml) workflow on every push to `main`.
 
 ## Architecture
 
 ```
-TemplateResumeKmp
+ResumeKmp
 ├── shared                       Kotlin Multiplatform library: the whole app
 │   └── src
 │       ├── commonMain

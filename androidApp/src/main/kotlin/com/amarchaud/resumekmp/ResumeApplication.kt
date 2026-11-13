@@ -1,4 +1,4 @@
-package com.amarchaud.templateresumekmp
+package com.amarchaud.resumekmp
 
 import android.app.Application
 import com.amarchaud.shared.di.initKoin

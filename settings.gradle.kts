@@ -1,4 +1,4 @@
-rootProject.name = "TemplateResumeKmp"
+rootProject.name = "ResumeKmp"
 
 pluginManagement {
     repositories {

@@ -1,4 +1,4 @@
-package com.amarchaud.templateresumekmp
+package com.amarchaud.resumekmp
 
 import com.amarchaud.shared.di.initKoin
 import com.amarchaud.shared.platform.resumeViewController

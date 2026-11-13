@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.amarchaud.templateresumekmp"
+    namespace = "com.amarchaud.resumekmp"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.amarchaud.templateresumekmp"
+        applicationId = "com.amarchaud.resumekmp"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 2

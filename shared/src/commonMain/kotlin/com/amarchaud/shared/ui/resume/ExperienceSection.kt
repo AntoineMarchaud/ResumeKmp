@@ -79,7 +79,7 @@ import com.amarchaud.shared.ui.components.staggerDelay
 import com.amarchaud.shared.ui.icons.AppIcons
 import com.amarchaud.shared.ui.preview.PreviewData
 import com.amarchaud.shared.ui.theme.ResumeTheme
-import com.amarchaud.shared.ui.theme.TemplateResumeTheme
+import com.amarchaud.shared.ui.theme.ResumeAppTheme
 import kotlinx.datetime.YearMonth
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
@@ -359,7 +359,7 @@ private fun periodLabel(experience: ExperienceModel, now: YearMonth): String? {
 @PreviewLightDark
 @Composable
 private fun ExperienceSectionPreview() {
-    TemplateResumeTheme {
+    ResumeAppTheme {
         Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
             ExperienceSection(
                 experiences = PreviewData.resume.experiences,

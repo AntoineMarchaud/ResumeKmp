@@ -29,7 +29,7 @@ object ResumeTheme {
 }
 
 @Composable
-fun TemplateResumeTheme(
+fun ResumeAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit,

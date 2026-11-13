@@ -12,7 +12,7 @@ import androidx.compose.ui.test.v2.runComposeUiTest
 import com.amarchaud.shared.ui.preview.PreviewData
 import com.amarchaud.shared.ui.resume.ResumeLayout
 import com.amarchaud.shared.ui.resume.ResumeScreen
-import com.amarchaud.shared.ui.theme.TemplateResumeTheme
+import com.amarchaud.shared.ui.theme.ResumeAppTheme
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -23,7 +23,7 @@ class ResumeScreenTest {
     @Test
     fun opensOnAboutAndNavigatesBetweenSections() = runComposeUiTest {
         setContent {
-            TemplateResumeTheme {
+            ResumeAppTheme {
                 ResumeScreen(resume = PreviewData.resume, layout = ResumeLayout.Compact, dynamicColor = null)
             }
         }
@@ -47,7 +47,7 @@ class ResumeScreenTest {
     @Test
     fun largeScreensUseTheProfilePane() = runComposeUiTest {
         setContent {
-            TemplateResumeTheme {
+            ResumeAppTheme {
                 ResumeScreen(resume = PreviewData.resume, layout = ResumeLayout.TwoPane(), dynamicColor = null)
             }
         }

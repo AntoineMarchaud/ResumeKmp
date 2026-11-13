@@ -22,7 +22,7 @@ import com.amarchaud.shared.ui.ResumeUiState
 import com.amarchaud.shared.ui.ResumeViewModel
 import com.amarchaud.shared.ui.resume.DynamicColorAction
 import com.amarchaud.shared.ui.resume.ResumeScreen
-import com.amarchaud.shared.ui.theme.TemplateResumeTheme
+import com.amarchaud.shared.ui.theme.ResumeAppTheme
 import org.koin.compose.viewmodel.koinViewModel
 
 /** Root of the app, shared by every platform. */
@@ -31,7 +31,7 @@ fun App(viewModel: ResumeViewModel = koinViewModel()) {
     var dynamicColor by rememberSaveable { mutableStateOf(false) }
     val uiState by viewModel.uiState.collectAsState()
 
-    TemplateResumeTheme(dynamicColor = dynamicColor) {
+    ResumeAppTheme(dynamicColor = dynamicColor) {
         Crossfade(targetState = uiState, label = "resume-state") { state ->
             when (state) {
                 ResumeUiState.Loading -> Box(

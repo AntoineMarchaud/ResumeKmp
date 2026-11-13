@@ -62,7 +62,7 @@ import com.amarchaud.shared.ui.components.staggerDelay
 import com.amarchaud.shared.ui.icons.AppIcons
 import com.amarchaud.shared.ui.preview.PreviewData
 import com.amarchaud.shared.ui.theme.ResumeTheme
-import com.amarchaud.shared.ui.theme.TemplateResumeTheme
+import com.amarchaud.shared.ui.theme.ResumeAppTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -254,7 +254,7 @@ private const val COPY_CONFIRMATION_MILLIS = 2_000L
 @PreviewLightDark
 @Composable
 private fun ContactSectionPreview() {
-    TemplateResumeTheme {
+    ResumeAppTheme {
         Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
             ContactSection(contact = PreviewData.resume.contact, contentPadding = PaddingValues(20.dp))
         }

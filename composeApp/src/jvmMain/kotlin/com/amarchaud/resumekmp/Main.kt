@@ -1,4 +1,4 @@
-package com.amarchaud.templateresumekmp
+package com.amarchaud.resumekmp
 
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp

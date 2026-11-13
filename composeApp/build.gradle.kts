@@ -48,7 +48,7 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "com.amarchaud.templateresumekmp.MainKt"
+        mainClass = "com.amarchaud.resumekmp.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)

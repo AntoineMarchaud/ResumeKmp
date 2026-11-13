@@ -37,7 +37,7 @@ import com.amarchaud.shared.ui.components.rememberRevealState
 import com.amarchaud.shared.ui.components.staggerDelay
 import com.amarchaud.shared.ui.icons.AppIcons
 import com.amarchaud.shared.ui.preview.PreviewData
-import com.amarchaud.shared.ui.theme.TemplateResumeTheme
+import com.amarchaud.shared.ui.theme.ResumeAppTheme
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -221,7 +221,7 @@ private fun LanguageCard(language: LanguageModel, modifier: Modifier = Modifier)
 @PreviewLightDark
 @Composable
 private fun AboutSectionPreview() {
-    TemplateResumeTheme {
+    ResumeAppTheme {
         Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
             AboutSection(resume = PreviewData.resume, contentPadding = PaddingValues(20.dp))
         }

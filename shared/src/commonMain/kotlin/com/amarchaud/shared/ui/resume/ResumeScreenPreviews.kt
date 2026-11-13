@@ -7,7 +7,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import com.amarchaud.shared.ui.preview.PreviewData
-import com.amarchaud.shared.ui.theme.TemplateResumeTheme
+import com.amarchaud.shared.ui.theme.ResumeAppTheme
 
 /*
  * One preview per adaptive layout. The layout is passed explicitly because foldable postures
@@ -27,7 +27,7 @@ private class SectionProvider : PreviewParameterProvider<ResumeSection> {
 
 @Composable
 private fun ResumePreview(layout: ResumeLayout, section: ResumeSection = ResumeSection.About) {
-    TemplateResumeTheme {
+    ResumeAppTheme {
         ResumeScreen(
             resume = PreviewData.resume,
             layout = layout,

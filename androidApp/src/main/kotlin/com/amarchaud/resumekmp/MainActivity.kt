@@ -1,4 +1,4 @@
-package com.amarchaud.templateresumekmp
+package com.amarchaud.resumekmp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

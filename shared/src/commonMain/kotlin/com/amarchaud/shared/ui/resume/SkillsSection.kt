@@ -47,7 +47,7 @@ import com.amarchaud.shared.ui.components.SectionList
 import com.amarchaud.shared.ui.components.SkillChip
 import com.amarchaud.shared.ui.components.rememberRevealState
 import com.amarchaud.shared.ui.preview.PreviewData
-import com.amarchaud.shared.ui.theme.TemplateResumeTheme
+import com.amarchaud.shared.ui.theme.ResumeAppTheme
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
@@ -167,7 +167,7 @@ private fun UsageRow(technology: TechnologyUsage, fraction: Float, delayMillis: 
 @PreviewLightDark
 @Composable
 private fun SkillsSectionPreview() {
-    TemplateResumeTheme {
+    ResumeAppTheme {
         Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
             SkillsSection(resume = PreviewData.resume, contentPadding = PaddingValues(20.dp))
         }
