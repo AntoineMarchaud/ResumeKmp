@@ -32,7 +32,9 @@
     <script type="application/javascript" src="composeApp.js"></script>
 </head>
 <body>
-<!-- Shown while the WebAssembly app loads; Compose then takes over the whole page. -->
+<!-- Compose renders the app in this container. -->
+<div id="app"></div>
+<!-- Shown on top while the WebAssembly app loads, then faded out once the resume is displayed. -->
 <div id="loading" role="status" aria-live="polite">
     <div class="avatar">AM<img src="composeResources/com.amarchaud.shared.resources/files/photo.jpg" alt="" onerror="this.remove()"></div>
     <h1>Antoine Marchaud</h1>

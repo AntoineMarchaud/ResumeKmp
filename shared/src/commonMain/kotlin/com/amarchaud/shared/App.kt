@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,14 +30,27 @@ import com.amarchaud.shared.ui.resume.DynamicColorAction
 import com.amarchaud.shared.ui.resume.LanguageAction
 import com.amarchaud.shared.ui.resume.ResumeScreen
 import com.amarchaud.shared.ui.theme.ResumeAppTheme
+import kotlinx.coroutines.delay
 import org.koin.compose.viewmodel.koinViewModel
 
-/** Root of the app, shared by every platform. */
+/**
+ * Root of the app, shared by every platform. [onDisplayed] is called once the resume (or an error)
+ * is on screen, e.g. to fade out the web loading screen.
+ */
 @Composable
-fun App(viewModel: ResumeViewModel = koinViewModel()) {
+fun App(viewModel: ResumeViewModel = koinViewModel(), onDisplayed: () -> Unit = {}) {
     var dynamicColor by rememberSaveable { mutableStateOf(false) }
     var selectedLanguage by rememberSaveable { mutableStateOf(detectLanguage()) }
     val uiState by viewModel.uiState.collectAsState()
+
+    val displayed = uiState !is ResumeUiState.Loading
+    LaunchedEffect(displayed) {
+        if (displayed) {
+            // Lets the fonts and the first frames settle before revealing the content.
+            delay(DISPLAY_SETTLE_MILLIS)
+            onDisplayed()
+        }
+    }
 
     ResumeAppTheme(dynamicColor = dynamicColor) {
         Crossfade(targetState = uiState, label = "resume-state") { state ->
@@ -85,3 +99,5 @@ fun App(viewModel: ResumeViewModel = koinViewModel()) {
         }
     }
 }
+
+private const val DISPLAY_SETTLE_MILLIS = 250L
