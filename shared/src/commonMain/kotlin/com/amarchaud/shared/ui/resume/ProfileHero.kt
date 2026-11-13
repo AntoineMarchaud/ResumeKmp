@@ -68,6 +68,7 @@ import com.amarchaud.shared.data.initialsOf
 import com.amarchaud.shared.ui.components.BundledImage
 import com.amarchaud.shared.ui.components.LocalProfilePhoto
 import com.amarchaud.shared.ui.components.Monogram
+import com.amarchaud.shared.ui.components.ResumeCard
 import com.amarchaud.shared.ui.components.heroBackground
 import com.amarchaud.shared.ui.i18n.LanguageFlag
 import com.amarchaud.shared.ui.i18n.LocalStrings
@@ -480,8 +481,9 @@ fun CollapsingProfileHeader(
 }
 
 /**
- * Profile pane of the two-pane layout (tablets, landscape, foldables in book posture),
- * which also hosts the navigation.
+ * Profile card of the two-pane layout (tablets, landscape, foldables in book posture): the identity
+ * on a gradient banner, then the navigation. The card is only as tall as its content, so that the
+ * resume itself stays the focus.
  */
 @Composable
 fun ProfilePane(
@@ -493,32 +495,32 @@ fun ProfilePane(
     modifier: Modifier = Modifier,
 ) {
     val colors = ResumeTheme.colors
-    Box(
+    Column(
         modifier = modifier
             .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Vertical + WindowInsetsSides.Start))
-            .padding(16.dp)
-            .clip(RoundedCornerShape(32.dp))
-            .heroBackground(colors),
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 24.dp, vertical = 20.dp),
-        ) {
-            HeroTopRow(info = info, actions = actions)
-            Spacer(modifier = Modifier.height(28.dp))
-            ProfileAvatar(name = info.name, size = 96.dp)
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(text = info.name, style = MaterialTheme.typography.headlineMedium, color = colors.onHero)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = info.job, style = MaterialTheme.typography.bodyLarge, color = colors.onHeroMuted)
-            if (stats.isNotEmpty()) {
+        ResumeCard(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(32.dp)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heroBackground(colors)
+                    .padding(start = 24.dp, end = 24.dp, top = 20.dp, bottom = 24.dp),
+            ) {
+                HeroTopRow(info = info, actions = actions)
                 Spacer(modifier = Modifier.height(28.dp))
-                StatsRow(stats = stats)
+                ProfileAvatar(name = info.name, size = 96.dp)
+                Spacer(modifier = Modifier.height(20.dp))
+                Text(text = info.name, style = MaterialTheme.typography.headlineMedium, color = colors.onHero)
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = info.job, style = MaterialTheme.typography.bodyLarge, color = colors.onHeroMuted)
+                if (stats.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(28.dp))
+                    StatsRow(stats = stats)
+                }
             }
-            Spacer(modifier = Modifier.height(28.dp))
-            PaneNavigation(selected = selected, onSelect = onSelect)
+            PaneNavigation(selected = selected, onSelect = onSelect, modifier = Modifier.padding(12.dp))
         }
     }
 }

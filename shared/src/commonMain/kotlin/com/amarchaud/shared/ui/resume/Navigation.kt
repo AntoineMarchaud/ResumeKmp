@@ -216,14 +216,14 @@ fun FloatingNavigationRail(
     }
 }
 
-/** Large screen navigation, displayed inside the profile pane, on top of the hero background. */
+/** Large screen navigation, displayed in the profile card, below its banner. */
 @Composable
 fun PaneNavigation(
     selected: ResumeSection,
     onSelect: (ResumeSection) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val colors = ResumeTheme.colors
+    val scheme = MaterialTheme.colorScheme
     Column(
         modifier = modifier.selectableGroup(),
         verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -231,7 +231,7 @@ fun PaneNavigation(
         ResumeSection.entries.forEach { section ->
             val isSelected = section == selected
             val container by animateColorAsState(
-                targetValue = if (isSelected) colors.onHero.copy(alpha = 0.14f) else Color.Transparent,
+                targetValue = if (isSelected) scheme.primary.copy(alpha = 0.10f) else Color.Transparent,
                 label = "pane-nav-container",
             )
             Row(
@@ -247,21 +247,21 @@ fun PaneNavigation(
                     imageVector = section.icon(isSelected),
                     contentDescription = null,
                     modifier = Modifier.size(22.dp),
-                    tint = if (isSelected) colors.onHero else colors.onHeroMuted,
+                    tint = if (isSelected) scheme.primary else scheme.onSurfaceVariant,
                 )
                 Spacer(modifier = Modifier.width(14.dp))
                 Text(
                     text = section.label(LocalStrings.current),
                     modifier = Modifier.weight(1f),
                     style = MaterialTheme.typography.titleSmall,
-                    color = if (isSelected) colors.onHero else colors.onHeroMuted,
+                    color = if (isSelected) scheme.primary else scheme.onSurface,
                 )
                 AnimatedVisibility(visible = isSelected, enter = fadeIn(), exit = fadeOut()) {
                     Box(
                         modifier = Modifier
                             .size(6.dp)
                             .clip(CircleShape)
-                            .background(colors.onHero),
+                            .background(scheme.primary),
                     )
                 }
             }
