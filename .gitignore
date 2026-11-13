@@ -13,7 +13,7 @@ local.properties
 # Xcode
 xcuserdata/
 DerivedData/
-iosApp2/build/
+iosApp/build/
 
 # macOS
 .DS_Store

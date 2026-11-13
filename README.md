@@ -141,7 +141,7 @@ Files written for the first version of the template (with a free-text `period` i
 | Platform | Command |
 |---|---|
 | Android | `./gradlew :androidApp:installDebug` |
-| iOS | Open `iosApp2/iosApp.xcodeproj` in Xcode and run the `iosApp` scheme |
+| iOS | Open `iosApp/iosApp.xcodeproj` in Xcode and run the `iosApp` scheme |
 | Desktop | `./gradlew :composeApp:run` |
 | Web (WebAssembly) | `./gradlew :composeApp:wasmJsBrowserDevelopmentRun` |
 | Web (JavaScript, older browsers) | `./gradlew :composeApp:jsBrowserDevelopmentRun` |
@@ -165,7 +165,7 @@ TemplateResumeKmp
 │       └── jvmTest               Bundled JSON and Compose UI tests
 ├── composeApp                   Entry points: iOS framework, desktop app, web app (Wasm and JS)
 ├── androidApp                   Android application
-└── iosApp2                      Xcode project: UIKit app hosting Compose, owning the status bar style
+└── iosApp                       Xcode project: UIKit app hosting Compose, owning the status bar style
 ```
 
 - **MVVM**: `ResumeViewModel` exposes a `StateFlow` of loading, success and error states, fed by `ResumeRepository`.
