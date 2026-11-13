@@ -16,6 +16,12 @@ html, body {
 #app {
     position: fixed;
     inset: 0;
+    /*
+     * The page itself never scrolls: touch gestures always belong to the app. Otherwise the browser
+     * takes over vertical swipes in the portrait layout, where the collapsing header consumes them
+     * before the list does, which Compose's web scroll heuristic does not see as a scroll.
+     */
+    touch-action: none;
 }
 
 /* Loading screen, in the colors of the app hero. */
