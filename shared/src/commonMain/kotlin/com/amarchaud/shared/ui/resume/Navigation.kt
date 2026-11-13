@@ -37,22 +37,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import com.amarchaud.shared.resources.Res
-import com.amarchaud.shared.resources.section_about
-import com.amarchaud.shared.resources.section_contact
-import com.amarchaud.shared.resources.section_experience
-import com.amarchaud.shared.resources.section_skills
+import com.amarchaud.shared.ui.i18n.LocalStrings
+import com.amarchaud.shared.ui.i18n.Strings
 import com.amarchaud.shared.ui.icons.AppIcons
 import com.amarchaud.shared.ui.theme.ResumeTheme
-import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.stringResource
 
-enum class ResumeSection(val label: StringResource) {
-    About(Res.string.section_about),
-    Experience(Res.string.section_experience),
-    Skills(Res.string.section_skills),
-    Contact(Res.string.section_contact),
+enum class ResumeSection {
+    About,
+    Experience,
+    Skills,
+    Contact,
     ;
+
+    fun label(strings: Strings): String = when (this) {
+        About -> strings.sectionAbout
+        Experience -> strings.sectionExperience
+        Skills -> strings.sectionSkills
+        Contact -> strings.sectionContact
+    }
 
     fun icon(selected: Boolean): ImageVector = when (this) {
         About -> if (selected) AppIcons.PersonFilled else AppIcons.Person
@@ -100,7 +102,7 @@ fun FloatingNavigationBar(
                     },
                     label = "nav-content",
                 )
-                val label = stringResource(section.label)
+                val label = section.label(LocalStrings.current)
                 Row(
                     modifier = Modifier
                         .height(48.dp)
@@ -199,7 +201,7 @@ fun FloatingNavigationRail(
                     }
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = stringResource(section.label),
+                        text = section.label(LocalStrings.current),
                         style = MaterialTheme.typography.labelMedium,
                         color = if (isSelected) {
                             MaterialTheme.colorScheme.onSurface
@@ -249,7 +251,7 @@ fun PaneNavigation(
                 )
                 Spacer(modifier = Modifier.width(14.dp))
                 Text(
-                    text = stringResource(section.label),
+                    text = section.label(LocalStrings.current),
                     modifier = Modifier.weight(1f),
                     style = MaterialTheme.typography.titleSmall,
                     color = if (isSelected) colors.onHero else colors.onHeroMuted,

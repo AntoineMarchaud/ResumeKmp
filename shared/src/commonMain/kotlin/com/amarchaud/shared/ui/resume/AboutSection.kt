@@ -22,11 +22,6 @@ import androidx.compose.ui.unit.dp
 import com.amarchaud.shared.data.EducationModel
 import com.amarchaud.shared.data.LanguageModel
 import com.amarchaud.shared.data.ResumeModel
-import com.amarchaud.shared.resources.Res
-import com.amarchaud.shared.resources.about_education
-import com.amarchaud.shared.resources.about_languages
-import com.amarchaud.shared.resources.about_strengths
-import com.amarchaud.shared.resources.about_title
 import com.amarchaud.shared.ui.components.GroupTitle
 import com.amarchaud.shared.ui.components.IconBadge
 import com.amarchaud.shared.ui.components.ResumeCard
@@ -35,10 +30,10 @@ import com.amarchaud.shared.ui.components.SectionHeader
 import com.amarchaud.shared.ui.components.SectionList
 import com.amarchaud.shared.ui.components.rememberRevealState
 import com.amarchaud.shared.ui.components.staggerDelay
+import com.amarchaud.shared.ui.i18n.LocalStrings
 import com.amarchaud.shared.ui.icons.AppIcons
 import com.amarchaud.shared.ui.preview.PreviewData
 import com.amarchaud.shared.ui.theme.ResumeAppTheme
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AboutSection(
@@ -53,7 +48,7 @@ fun AboutSection(
     SectionList(contentPadding = contentPadding, modifier = modifier) {
         item(key = "header") {
             SectionHeader(
-                title = stringResource(Res.string.about_title),
+                title = LocalStrings.current.aboutTitle,
                 modifier = Modifier.padding(bottom = 20.dp),
             )
         }
@@ -66,7 +61,7 @@ fun AboutSection(
             item(key = "strengths") {
                 Reveal(key = "strengths", state = revealState, delayMillis = staggerDelay(1)) {
                     Column(modifier = Modifier.padding(top = 32.dp)) {
-                        GroupTitle(text = stringResource(Res.string.about_strengths))
+                        GroupTitle(text = LocalStrings.current.aboutStrengths)
                         Spacer(modifier = Modifier.height(14.dp))
                         StrengthsCard(strengths)
                     }
@@ -77,7 +72,7 @@ fun AboutSection(
             item(key = "education") {
                 Reveal(key = "education", state = revealState, delayMillis = staggerDelay(2)) {
                     Column(modifier = Modifier.padding(top = 32.dp)) {
-                        GroupTitle(text = stringResource(Res.string.about_education))
+                        GroupTitle(text = LocalStrings.current.aboutEducation)
                         Spacer(modifier = Modifier.height(14.dp))
                         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                             resume.education.forEach { EducationCard(it) }
@@ -90,7 +85,7 @@ fun AboutSection(
             item(key = "languages") {
                 Reveal(key = "languages", state = revealState, delayMillis = staggerDelay(3)) {
                     Column(modifier = Modifier.padding(top = 32.dp)) {
-                        GroupTitle(text = stringResource(Res.string.about_languages))
+                        GroupTitle(text = LocalStrings.current.aboutLanguages)
                         Spacer(modifier = Modifier.height(14.dp))
                         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                             resume.languages.forEach { LanguageCard(it, Modifier.weight(1f)) }

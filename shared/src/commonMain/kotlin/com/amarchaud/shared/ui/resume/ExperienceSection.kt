@@ -63,16 +63,6 @@ import com.amarchaud.shared.data.initialsOf
 import com.amarchaud.shared.data.isCurrent
 import com.amarchaud.shared.data.splitDuration
 import com.amarchaud.shared.resources.Res
-import com.amarchaud.shared.resources.duration_months
-import com.amarchaud.shared.resources.duration_years
-import com.amarchaud.shared.resources.experience_collapse
-import com.amarchaud.shared.resources.experience_current
-import com.amarchaud.shared.resources.experience_expand
-import com.amarchaud.shared.resources.experience_hint
-import com.amarchaud.shared.resources.experience_present
-import com.amarchaud.shared.resources.experience_title
-import com.amarchaud.shared.resources.experience_view_on_play
-import com.amarchaud.shared.resources.positions_count
 import com.amarchaud.shared.ui.components.CountPill
 import com.amarchaud.shared.ui.components.CurrentBadge
 import com.amarchaud.shared.ui.components.MetaItem
@@ -85,14 +75,13 @@ import com.amarchaud.shared.ui.components.TechChip
 import com.amarchaud.shared.ui.components.openSafely
 import com.amarchaud.shared.ui.components.rememberRevealState
 import com.amarchaud.shared.ui.components.staggerDelay
+import com.amarchaud.shared.ui.i18n.LocalStrings
 import com.amarchaud.shared.ui.icons.AppIcons
 import com.amarchaud.shared.ui.preview.PreviewData
 import com.amarchaud.shared.ui.theme.ResumeAppTheme
 import com.amarchaud.shared.ui.theme.ResumeTheme
 import kotlinx.datetime.YearMonth
 import org.jetbrains.compose.resources.decodeToImageBitmap
-import org.jetbrains.compose.resources.pluralStringResource
-import org.jetbrains.compose.resources.stringResource
 
 private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id="
 
@@ -114,11 +103,11 @@ fun ExperienceSection(
     SectionList(contentPadding = contentPadding, modifier = modifier) {
         item(key = "header") {
             SectionHeader(
-                title = stringResource(Res.string.experience_title),
-                subtitle = stringResource(Res.string.experience_hint),
+                title = LocalStrings.current.experienceTitle,
+                subtitle = LocalStrings.current.experienceHint,
                 modifier = Modifier.padding(bottom = 20.dp),
                 trailing = {
-                    CountPill(pluralStringResource(Res.plurals.positions_count, experiences.size, experiences.size))
+                    CountPill(LocalStrings.current.positionsCount(experiences.size))
                 },
             )
         }
@@ -220,7 +209,7 @@ private fun ExperienceCard(
         } else {
             null
         },
-        onClickLabel = stringResource(if (expanded) Res.string.experience_collapse else Res.string.experience_expand),
+        onClickLabel = if (expanded) LocalStrings.current.experienceCollapse else LocalStrings.current.experienceExpand,
     ) {
         Column(modifier = Modifier.padding(18.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -257,7 +246,7 @@ private fun ExperienceCard(
                 itemVerticalAlignment = Alignment.CenterVertically,
             ) {
                 if (experience.isCurrent) {
-                    CurrentBadge(text = stringResource(Res.string.experience_current))
+                    CurrentBadge(text = LocalStrings.current.experienceCurrent)
                 }
                 periodLabel(experience, now)?.let { MetaItem(icon = AppIcons.CalendarMonth, text = it) }
                 experience.location?.let { MetaItem(icon = AppIcons.LocationOn, text = it) }
@@ -412,7 +401,7 @@ private fun ExperienceDetails(experience: ExperienceModel) {
             ) {
                 Icon(imageVector = AppIcons.Shop, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = stringResource(Res.string.experience_view_on_play))
+                Text(text = LocalStrings.current.experienceViewOnPlay)
                 Spacer(modifier = Modifier.width(6.dp))
                 Icon(imageVector = AppIcons.ArrowOutward, contentDescription = null, modifier = Modifier.size(16.dp))
             }
@@ -423,12 +412,12 @@ private fun ExperienceDetails(experience: ExperienceModel) {
 /** `Sep 2025 – Aug 2026 · 1 yr`. */
 @Composable
 private fun periodLabel(experience: ExperienceModel, now: YearMonth): String? {
-    val period = experience.formattedPeriod(stringResource(Res.string.experience_present)) ?: return null
+    val period = experience.formattedPeriod(LocalStrings.current.experiencePresent, LocalStrings.current.monthNames) ?: return null
     val months = experience.durationInMonths(now) ?: return period
     val (years, remainingMonths) = splitDuration(months)
     val duration = buildList {
-        if (years > 0) add(pluralStringResource(Res.plurals.duration_years, years, years))
-        if (remainingMonths > 0) add(pluralStringResource(Res.plurals.duration_months, remainingMonths, remainingMonths))
+        if (years > 0) add(LocalStrings.current.durationYears(years))
+        if (remainingMonths > 0) add(LocalStrings.current.durationMonths(remainingMonths))
     }.joinToString(separator = " ")
     return if (duration.isEmpty()) period else "$period · $duration"
 }

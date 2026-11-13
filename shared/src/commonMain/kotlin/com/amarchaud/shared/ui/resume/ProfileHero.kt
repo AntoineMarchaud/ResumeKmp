@@ -24,6 +24,8 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -49,28 +51,91 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.amarchaud.shared.data.InfoModel
+import com.amarchaud.shared.data.Language
 import com.amarchaud.shared.data.StatModel
 import com.amarchaud.shared.data.initialsOf
-import com.amarchaud.shared.resources.Res
-import com.amarchaud.shared.resources.header_dynamic_color
 import com.amarchaud.shared.ui.components.Monogram
 import com.amarchaud.shared.ui.components.heroBackground
+import com.amarchaud.shared.ui.i18n.LanguageFlag
+import com.amarchaud.shared.ui.i18n.LocalStrings
+import com.amarchaud.shared.ui.i18n.strings
 import com.amarchaud.shared.ui.icons.AppIcons
 import com.amarchaud.shared.ui.theme.ResumeTheme
 import kotlin.math.roundToInt
-import org.jetbrains.compose.resources.stringResource
 
 /** Height of the header once fully collapsed (status bar excluded). */
 private val HeaderBarHeight = 64.dp
 
 /** Material You toggle, `null` when dynamic colors are not available on the device. */
 class DynamicColorAction(val enabled: Boolean, val onToggle: (Boolean) -> Unit)
+
+/** Languages the resume is available in; the switch is shown when there are several. */
+class LanguageAction(val selected: Language, val available: List<Language>, val onSelect: (Language) -> Unit)
+
+/** Everything displayed at the top right of the hero banner. */
+class HeaderActions(
+    val dynamicColor: DynamicColorAction? = null,
+    val language: LanguageAction? = null,
+)
+
+@Composable
+private fun HeaderActionsRow(actions: HeaderActions, modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        actions.language?.takeIf { it.available.size > 1 }?.let { LanguageSwitch(it) }
+        actions.dynamicColor?.let { DynamicColorToggle(it) }
+    }
+}
+
+/** Small flags in a glass pill: the selected language is fully opaque and outlined. */
+@Composable
+private fun LanguageSwitch(action: LanguageAction) {
+    val colors = ResumeTheme.colors
+    Row(
+        modifier = Modifier
+            .clip(CircleShape)
+            .background(colors.heroSurface)
+            .border(1.dp, colors.heroOutline, CircleShape)
+            .padding(horizontal = 6.dp, vertical = 4.dp)
+            .selectableGroup(),
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        action.available.forEach { language ->
+            val selected = language == action.selected
+            val flagShape = RoundedCornerShape(4.dp)
+            Box(
+                modifier = Modifier
+                    .size(width = 40.dp, height = 32.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .selectable(selected = selected, role = Role.RadioButton, onClick = { action.onSelect(language) })
+                    .semantics { contentDescription = language.strings.languageName },
+                contentAlignment = Alignment.Center,
+            ) {
+                LanguageFlag(
+                    language = language,
+                    modifier = Modifier
+                        .size(width = 24.dp, height = 16.dp)
+                        .graphicsLayer { alpha = if (selected) 1f else 0.45f }
+                        .clip(flagShape)
+                        .then(if (selected) Modifier.border(1.5.dp, colors.onHero, flagShape) else Modifier),
+                )
+            }
+        }
+    }
+}
 
 @Composable
 fun ProfileAvatar(name: String, size: Dp, modifier: Modifier = Modifier) {
@@ -139,7 +204,7 @@ private fun DynamicColorToggle(action: DynamicColorAction, modifier: Modifier = 
     ) {
         Icon(
             imageVector = if (action.enabled) AppIcons.PaletteFilled else AppIcons.Palette,
-            contentDescription = stringResource(Res.string.header_dynamic_color),
+            contentDescription = LocalStrings.current.headerDynamicColor,
             modifier = Modifier.size(20.dp),
         )
     }
@@ -147,7 +212,7 @@ private fun DynamicColorToggle(action: DynamicColorAction, modifier: Modifier = 
 
 /** Location chip on the left, Material You toggle on the right. */
 @Composable
-private fun HeroTopRow(info: InfoModel, dynamicColor: DynamicColorAction?, modifier: Modifier = Modifier) {
+private fun HeroTopRow(info: InfoModel, actions: HeaderActions, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -155,7 +220,7 @@ private fun HeroTopRow(info: InfoModel, dynamicColor: DynamicColorAction?, modif
         Box(modifier = Modifier.weight(1f)) {
             info.location?.let { LocationChip(it) }
         }
-        dynamicColor?.let { DynamicColorToggle(it) }
+        HeaderActionsRow(actions)
     }
 }
 
@@ -294,7 +359,7 @@ fun CollapsingProfileHeader(
     info: InfoModel,
     stats: List<StatModel>,
     scrollBehavior: TopAppBarScrollBehavior,
-    dynamicColor: DynamicColorAction?,
+    actions: HeaderActions,
     modifier: Modifier = Modifier,
     horizontalPadding: Dp = 24.dp,
 ) {
@@ -394,7 +459,7 @@ fun CollapsingProfileHeader(
                     }
                 }
             }
-            dynamicColor?.let { DynamicColorToggle(it) }
+            HeaderActionsRow(actions)
         }
     }
 }
@@ -409,7 +474,7 @@ fun ProfilePane(
     stats: List<StatModel>,
     selected: ResumeSection,
     onSelect: (ResumeSection) -> Unit,
-    dynamicColor: DynamicColorAction?,
+    actions: HeaderActions,
     modifier: Modifier = Modifier,
 ) {
     val colors = ResumeTheme.colors
@@ -426,7 +491,7 @@ fun ProfilePane(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 24.dp, vertical = 20.dp),
         ) {
-            HeroTopRow(info = info, dynamicColor = dynamicColor)
+            HeroTopRow(info = info, actions = actions)
             Spacer(modifier = Modifier.height(28.dp))
             ProfileAvatar(name = info.name, size = 96.dp)
             Spacer(modifier = Modifier.height(20.dp))
@@ -448,7 +513,7 @@ fun ProfilePane(
 fun TabletopHero(
     info: InfoModel,
     stats: List<StatModel>,
-    dynamicColor: DynamicColorAction?,
+    actions: HeaderActions,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -459,7 +524,7 @@ fun TabletopHero(
             .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
             .padding(horizontal = 32.dp, vertical = 16.dp),
     ) {
-        HeroTopRow(info = info, dynamicColor = dynamicColor, modifier = Modifier.align(Alignment.TopCenter))
+        HeroTopRow(info = info, actions = actions, modifier = Modifier.align(Alignment.TopCenter))
         Column(
             modifier = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,

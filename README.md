@@ -90,15 +90,21 @@
   | Foldable in tabletop posture | Profile above the hinge, content and navigation below |
 
 - **Four sections**: About (summary, strengths, education, languages), Experience (timeline), Skills (tags and usage chart), Contact.
+- **English and French**: flags in the hero banner switch the language; the default one follows the device or browser language.
 - **Data-driven**: position durations, the "Current" badge and technology usage are computed from the JSON; companies show their logo, or their initials when none is provided.
 - **Polished design system**: custom indigo palette for light and dark themes, Plus Jakarta Sans typography, hairline cards, gradient hero.
 - **Native integration**: edge to edge with transparent system bars on Android, status bar style driven by the content on iOS, Material You colors on Android 12+.
 - **Motion**: collapsing header, staggered entrance animations, expandable cards, animated charts, section transitions.
 - **Compose previews** for every section and every adaptive mode (phone, tablet, foldable postures, light and dark), written in common code.
+- **Web ready to share**: link preview (Open Graph image, title and description) and a branded loading screen while the WebAssembly app downloads.
 
 ## Make it yours
 
-Everything displayed comes from [`shared/src/commonMain/composeResources/files/resume_template.json`](shared/src/commonMain/composeResources/files/resume_template.json): edit it and run the app on any platform.
+Everything displayed comes from [`resume_template.json`](shared/src/commonMain/composeResources/files/resume_template.json) (English, required)
+and [`resume_template_fr.json`](shared/src/commonMain/composeResources/files/resume_template_fr.json) (French, optional), in
+`shared/src/commonMain/composeResources/files`: edit them and run the app on any platform. Both files share the same structure.
+The interface texts live in [`Strings.kt`](shared/src/commonMain/kotlin/com/amarchaud/shared/ui/i18n/Strings.kt); the web page title,
+description and link preview in [`index.html`](composeApp/src/webMain/resources/index.html).
 
 ```jsonc
 {

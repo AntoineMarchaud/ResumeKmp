@@ -1,5 +1,6 @@
 package com.amarchaud.shared.data
 
+import com.amarchaud.shared.ui.i18n.FrenchStrings
 import kotlinx.datetime.YearMonth
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -49,6 +50,15 @@ class ResumeInsightsTest {
     fun `period is formatted with abbreviated english month names`() {
         assertEquals("Sep 2025 – Aug 2026", experience(start = "2025-09", end = "2026-08").formattedPeriod("Present"))
         assertEquals("Sep 2026 – Present", experience(start = "2026-09").formattedPeriod("Present"))
+    }
+
+    @Test
+    fun `period can use french month names`() {
+        assertEquals(
+            "sept. 2025 – août 2026",
+            experience(start = "2025-09", end = "2026-08").formattedPeriod("Aujourd’hui", FrenchStrings.monthNames),
+        )
+        assertEquals("sept. 2026 – Aujourd’hui", experience(start = "2026-09").formattedPeriod("Aujourd’hui", FrenchStrings.monthNames))
     }
 
     @Test

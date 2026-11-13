@@ -39,17 +39,6 @@ import androidx.compose.ui.unit.dp
 import com.amarchaud.shared.data.ContactModel
 import com.amarchaud.shared.data.displayUrl
 import com.amarchaud.shared.platform.plainTextClipEntry
-import com.amarchaud.shared.resources.Res
-import com.amarchaud.shared.resources.contact_copy_email
-import com.amarchaud.shared.resources.contact_cta_default
-import com.amarchaud.shared.resources.contact_cta_title
-import com.amarchaud.shared.resources.contact_email
-import com.amarchaud.shared.resources.contact_email_copied
-import com.amarchaud.shared.resources.contact_github
-import com.amarchaud.shared.resources.contact_linkedin
-import com.amarchaud.shared.resources.contact_phone
-import com.amarchaud.shared.resources.contact_send_email
-import com.amarchaud.shared.resources.contact_title
 import com.amarchaud.shared.ui.components.IconBadge
 import com.amarchaud.shared.ui.components.ResumeCard
 import com.amarchaud.shared.ui.components.Reveal
@@ -59,13 +48,13 @@ import com.amarchaud.shared.ui.components.heroBackground
 import com.amarchaud.shared.ui.components.openSafely
 import com.amarchaud.shared.ui.components.rememberRevealState
 import com.amarchaud.shared.ui.components.staggerDelay
+import com.amarchaud.shared.ui.i18n.LocalStrings
 import com.amarchaud.shared.ui.icons.AppIcons
 import com.amarchaud.shared.ui.preview.PreviewData
-import com.amarchaud.shared.ui.theme.ResumeTheme
 import com.amarchaud.shared.ui.theme.ResumeAppTheme
+import com.amarchaud.shared.ui.theme.ResumeTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.stringResource
 
 private data class ContactLink(
     val icon: ImageVector,
@@ -86,27 +75,27 @@ fun ContactSection(
     val emailUri = "mailto:${contact.email}"
 
     val links = buildList {
-        add(ContactLink(AppIcons.Mail, stringResource(Res.string.contact_email), contact.email, emailUri))
-        contact.phone?.let { add(ContactLink(AppIcons.Call, stringResource(Res.string.contact_phone), it, "tel:$it")) }
+        add(ContactLink(AppIcons.Mail, LocalStrings.current.contactEmail, contact.email, emailUri))
+        contact.phone?.let { add(ContactLink(AppIcons.Call, LocalStrings.current.contactPhone, it, "tel:$it")) }
         contact.linkedInUrl?.let {
-            add(ContactLink(AppIcons.LinkedIn, stringResource(Res.string.contact_linkedin), displayUrl(it), it))
+            add(ContactLink(AppIcons.LinkedIn, LocalStrings.current.contactLinkedIn, displayUrl(it), it))
         }
         contact.githubUrl?.let {
-            add(ContactLink(AppIcons.GitHub, stringResource(Res.string.contact_github), displayUrl(it), it))
+            add(ContactLink(AppIcons.GitHub, LocalStrings.current.contactGitHub, displayUrl(it), it))
         }
     }
 
     SectionList(contentPadding = contentPadding, modifier = modifier) {
         item(key = "header") {
             SectionHeader(
-                title = stringResource(Res.string.contact_title),
+                title = LocalStrings.current.contactTitle,
                 modifier = Modifier.padding(bottom = 20.dp),
             )
         }
         item(key = "cta") {
             Reveal(key = "cta", state = revealState) {
                 CallToActionCard(
-                    message = contact.message ?: stringResource(Res.string.contact_cta_default),
+                    message = contact.message ?: LocalStrings.current.contactCtaDefault,
                     onSendEmail = { openUri(emailUri) },
                 )
             }
@@ -148,7 +137,7 @@ private fun CallToActionCard(message: String, onSendEmail: () -> Unit) {
             .padding(24.dp),
     ) {
         Text(
-            text = stringResource(Res.string.contact_cta_title),
+            text = LocalStrings.current.contactCtaTitle,
             style = MaterialTheme.typography.headlineSmall,
             color = colors.onHero,
         )
@@ -169,7 +158,7 @@ private fun CallToActionCard(message: String, onSendEmail: () -> Unit) {
         ) {
             Icon(imageVector = AppIcons.Mail, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(10.dp))
-            Text(text = stringResource(Res.string.contact_send_email), style = MaterialTheme.typography.labelLarge)
+            Text(text = LocalStrings.current.contactSendEmail, style = MaterialTheme.typography.labelLarge)
         }
     }
 }
@@ -239,9 +228,7 @@ private fun CopyEmailButton(email: String) {
         Crossfade(targetState = copied, label = "copy-email") { isCopied ->
             Icon(
                 imageVector = if (isCopied) AppIcons.Check else AppIcons.ContentCopy,
-                contentDescription = stringResource(
-                    if (isCopied) Res.string.contact_email_copied else Res.string.contact_copy_email,
-                ),
+                contentDescription = if (isCopied) LocalStrings.current.contactEmailCopied else LocalStrings.current.contactCopyEmail,
                 modifier = Modifier.size(20.dp),
                 tint = if (isCopied) ResumeTheme.colors.positive else MaterialTheme.colorScheme.onSurfaceVariant,
             )

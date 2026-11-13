@@ -3,9 +3,6 @@ package com.amarchaud.shared.data
 import kotlin.time.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.YearMonth
-import kotlinx.datetime.format
-import kotlinx.datetime.format.MonthNames
-import kotlinx.datetime.format.char
 import kotlinx.datetime.monthsUntil
 import kotlinx.datetime.parseOrNull
 import kotlinx.datetime.todayIn
@@ -16,11 +13,9 @@ import kotlinx.datetime.yearMonth
  * They have no Android dependency so they are covered by local unit tests.
  */
 
-private val monthYearFormat = YearMonth.Format {
-    monthName(MonthNames.ENGLISH_ABBREVIATED)
-    char(' ')
-    year()
-}
+private val EnglishMonthNames = listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+
+private fun YearMonth.label(monthNames: List<String>) = "${monthNames[month.ordinal]} $year"
 
 private val currentPeriodMarkers = listOf("present", "since", "today", "now")
 
@@ -39,12 +34,13 @@ val ExperienceModel.isCurrent: Boolean
     }
 
 /**
- * Human readable period, e.g. `Sep 2025 – Aug 2026`. Falls back to the free-text [ExperienceModel.period].
+ * Human readable period, e.g. `Sep 2025 – Aug 2026`, with the given abbreviated month names
+ * (January first). Falls back to the free-text [ExperienceModel.period].
  */
-fun ExperienceModel.formattedPeriod(presentLabel: String): String? {
+fun ExperienceModel.formattedPeriod(presentLabel: String, monthNames: List<String> = EnglishMonthNames): String? {
     val from = startMonth ?: return period
-    val to = endMonth?.format(monthYearFormat) ?: presentLabel
-    return "${from.format(monthYearFormat)} – $to"
+    val to = endMonth?.label(monthNames) ?: presentLabel
+    return "${from.label(monthNames)} – $to"
 }
 
 /**

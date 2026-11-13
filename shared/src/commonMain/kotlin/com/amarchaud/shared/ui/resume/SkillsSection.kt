@@ -32,12 +32,6 @@ import androidx.compose.ui.unit.dp
 import com.amarchaud.shared.data.ResumeModel
 import com.amarchaud.shared.data.TechnologyUsage
 import com.amarchaud.shared.data.technologyUsage
-import com.amarchaud.shared.resources.Res
-import com.amarchaud.shared.resources.positions_count
-import com.amarchaud.shared.resources.skills_subtitle
-import com.amarchaud.shared.resources.skills_title
-import com.amarchaud.shared.resources.skills_usage_subtitle
-import com.amarchaud.shared.resources.skills_usage_title
 import com.amarchaud.shared.ui.components.CountPill
 import com.amarchaud.shared.ui.components.GroupTitle
 import com.amarchaud.shared.ui.components.ResumeCard
@@ -46,11 +40,10 @@ import com.amarchaud.shared.ui.components.SectionHeader
 import com.amarchaud.shared.ui.components.SectionList
 import com.amarchaud.shared.ui.components.SkillChip
 import com.amarchaud.shared.ui.components.rememberRevealState
+import com.amarchaud.shared.ui.i18n.LocalStrings
 import com.amarchaud.shared.ui.preview.PreviewData
 import com.amarchaud.shared.ui.theme.ResumeAppTheme
 import kotlinx.coroutines.delay
-import org.jetbrains.compose.resources.pluralStringResource
-import org.jetbrains.compose.resources.stringResource
 
 private const val MAX_USAGE_ROWS = 6
 
@@ -67,8 +60,8 @@ fun SkillsSection(
     SectionList(contentPadding = contentPadding, modifier = modifier) {
         item(key = "header") {
             SectionHeader(
-                title = stringResource(Res.string.skills_title),
-                subtitle = stringResource(Res.string.skills_subtitle),
+                title = LocalStrings.current.skillsTitle,
+                subtitle = LocalStrings.current.skillsSubtitle,
                 modifier = Modifier.padding(bottom = 20.dp),
                 trailing = { CountPill(resume.skills.size.toString()) },
             )
@@ -88,10 +81,10 @@ fun SkillsSection(
         if (usage.isNotEmpty() && positions > 0) {
             item(key = "usage") {
                 Column(modifier = Modifier.padding(top = 36.dp)) {
-                    GroupTitle(text = stringResource(Res.string.skills_usage_title))
+                    GroupTitle(text = LocalStrings.current.skillsUsageTitle)
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = stringResource(Res.string.skills_usage_subtitle),
+                        text = LocalStrings.current.skillsUsageSubtitle,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -141,7 +134,7 @@ private fun UsageRow(technology: TechnologyUsage, fraction: Float, delayMillis: 
                 color = scheme.onSurface,
             )
             Text(
-                text = pluralStringResource(Res.plurals.positions_count, technology.positions, technology.positions),
+                text = LocalStrings.current.positionsCount(technology.positions),
                 style = MaterialTheme.typography.labelMedium,
                 color = scheme.onSurfaceVariant,
             )

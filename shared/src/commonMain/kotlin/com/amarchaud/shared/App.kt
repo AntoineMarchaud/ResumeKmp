@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,10 +18,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.amarchaud.shared.data.Language
 import com.amarchaud.shared.platform.isDynamicColorAvailable
 import com.amarchaud.shared.ui.ResumeUiState
 import com.amarchaud.shared.ui.ResumeViewModel
+import com.amarchaud.shared.ui.i18n.LocalStrings
+import com.amarchaud.shared.ui.i18n.detectLanguage
+import com.amarchaud.shared.ui.i18n.strings
 import com.amarchaud.shared.ui.resume.DynamicColorAction
+import com.amarchaud.shared.ui.resume.LanguageAction
 import com.amarchaud.shared.ui.resume.ResumeScreen
 import com.amarchaud.shared.ui.theme.ResumeAppTheme
 import org.koin.compose.viewmodel.koinViewModel
@@ -29,6 +35,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun App(viewModel: ResumeViewModel = koinViewModel()) {
     var dynamicColor by rememberSaveable { mutableStateOf(false) }
+    var selectedLanguage by rememberSaveable { mutableStateOf(detectLanguage()) }
     val uiState by viewModel.uiState.collectAsState()
 
     ResumeAppTheme(dynamicColor = dynamicColor) {
@@ -55,14 +62,25 @@ fun App(viewModel: ResumeViewModel = koinViewModel()) {
                     )
                 }
 
-                is ResumeUiState.Success -> ResumeScreen(
-                    resume = state.resume,
-                    dynamicColor = if (isDynamicColorAvailable) {
-                        DynamicColorAction(enabled = dynamicColor, onToggle = { dynamicColor = it })
-                    } else {
-                        null
-                    },
-                )
+                is ResumeUiState.Success -> {
+                    // Falls back to English when the resume is not translated in the selected language.
+                    val language = selectedLanguage.takeIf { it in state.resumes } ?: Language.English
+                    CompositionLocalProvider(LocalStrings provides language.strings) {
+                        ResumeScreen(
+                            resume = state.resumes.getValue(language),
+                            dynamicColor = if (isDynamicColorAvailable) {
+                                DynamicColorAction(enabled = dynamicColor, onToggle = { dynamicColor = it })
+                            } else {
+                                null
+                            },
+                            language = LanguageAction(
+                                selected = language,
+                                available = Language.entries.filter { it in state.resumes },
+                                onSelect = { selectedLanguage = it },
+                            ),
+                        )
+                    }
+                }
             }
         }
     }

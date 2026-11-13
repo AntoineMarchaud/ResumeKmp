@@ -11,6 +11,22 @@ import kotlin.test.assertTrue
 
 class BundledResumeTest {
 
+    private fun bundled(language: Language) =
+        parseResume(SystemFileSystem.source(Path("src/commonMain/composeResources/${language.resumeFile}")).buffered().use { it.readString() })
+
+    /** Translations must describe the same positions, in the same order, with the same dates. */
+    @Test
+    fun `translations match the english resume`() {
+        val english = bundled(Language.English)
+        Language.entries.filter { it != Language.English }.forEach { language ->
+            val translation = bundled(language)
+            assertEquals(english.experiences.map { Triple(it.company, it.start, it.end) }, translation.experiences.map { Triple(it.company, it.start, it.end) })
+            assertEquals(english.experiences.map { it.logo }, translation.experiences.map { it.logo })
+            assertEquals(english.skills.size, translation.skills.size)
+        }
+    }
+
+
     /** The resume bundled with the app must always be valid. */
     @Test
     fun `bundled resume is valid`() {

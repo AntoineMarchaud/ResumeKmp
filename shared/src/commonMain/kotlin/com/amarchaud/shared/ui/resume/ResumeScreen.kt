@@ -55,22 +55,19 @@ import androidx.compose.ui.unit.min
 import com.amarchaud.shared.data.ResumeModel
 import com.amarchaud.shared.data.StatModel
 import com.amarchaud.shared.platform.SystemBarsAppearance
-import com.amarchaud.shared.resources.Res
-import com.amarchaud.shared.resources.stat_apps
-import com.amarchaud.shared.resources.stat_positions
-import com.amarchaud.shared.resources.stat_skills
-import org.jetbrains.compose.resources.stringResource
+import com.amarchaud.shared.ui.i18n.LocalStrings
 
 @Composable
 fun ResumeScreen(
     resume: ResumeModel,
     dynamicColor: DynamicColorAction?,
     modifier: Modifier = Modifier,
+    language: LanguageAction? = null,
 ) {
     val adaptiveInfo = currentWindowAdaptiveInfoV2()
     val density = LocalDensity.current
     val layout = remember(adaptiveInfo, density) { resumeLayoutFor(adaptiveInfo, density) }
-    ResumeScreen(resume = resume, layout = layout, dynamicColor = dynamicColor, modifier = modifier)
+    ResumeScreen(resume = resume, layout = layout, dynamicColor = dynamicColor, modifier = modifier, language = language)
 }
 
 /** Renders the resume with an explicit [layout]; used directly by previews and tests. */
@@ -81,7 +78,9 @@ internal fun ResumeScreen(
     dynamicColor: DynamicColorAction?,
     modifier: Modifier = Modifier,
     initialSection: ResumeSection = ResumeSection.About,
+    language: LanguageAction? = null,
 ) {
+    val actions = HeaderActions(dynamicColor = dynamicColor, language = language)
     var section by rememberSaveable { mutableStateOf(initialSection) }
     val stats = headerStats(resume)
 
@@ -103,7 +102,7 @@ internal fun ResumeScreen(
                 stats = stats,
                 section = section,
                 onSectionSelected = { section = it },
-                dynamicColor = dynamicColor,
+                actions = actions,
                 useRail = layout == ResumeLayout.Medium,
             )
 
@@ -112,7 +111,7 @@ internal fun ResumeScreen(
                 stats = stats,
                 section = section,
                 onSectionSelected = { section = it },
-                dynamicColor = dynamicColor,
+                actions = actions,
                 paneWidth = layout.paneWidth,
                 hingeWidth = layout.hingeWidth,
             )
@@ -122,7 +121,7 @@ internal fun ResumeScreen(
                 stats = stats,
                 section = section,
                 onSectionSelected = { section = it },
-                dynamicColor = dynamicColor,
+                actions = actions,
                 topHeight = layout.topHeight,
                 hingeHeight = layout.hingeHeight,
             )
@@ -137,7 +136,7 @@ private fun CollapsingLayout(
     stats: List<StatModel>,
     section: ResumeSection,
     onSectionSelected: (ResumeSection) -> Unit,
-    dynamicColor: DynamicColorAction?,
+    actions: HeaderActions,
     useRail: Boolean,
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -161,7 +160,7 @@ private fun CollapsingLayout(
                 info = resume.info,
                 stats = stats,
                 scrollBehavior = scrollBehavior,
-                dynamicColor = dynamicColor,
+                actions = actions,
                 horizontalPadding = if (useRail) 32.dp else 24.dp,
             )
             if (useRail) {
@@ -219,7 +218,7 @@ private fun TwoPaneLayout(
     stats: List<StatModel>,
     section: ResumeSection,
     onSectionSelected: (ResumeSection) -> Unit,
-    dynamicColor: DynamicColorAction?,
+    actions: HeaderActions,
     paneWidth: Dp?,
     hingeWidth: Dp,
 ) {
@@ -240,7 +239,7 @@ private fun TwoPaneLayout(
                 stats = stats,
                 selected = section,
                 onSelect = onSectionSelected,
-                dynamicColor = dynamicColor,
+                actions = actions,
                 modifier = Modifier
                     .width(width)
                     .fillMaxHeight(),
@@ -267,7 +266,7 @@ private fun TabletopLayout(
     stats: List<StatModel>,
     section: ResumeSection,
     onSectionSelected: (ResumeSection) -> Unit,
-    dynamicColor: DynamicColorAction?,
+    actions: HeaderActions,
     topHeight: Dp,
     hingeHeight: Dp,
 ) {
@@ -276,7 +275,7 @@ private fun TabletopLayout(
         TabletopHero(
             info = resume.info,
             stats = stats,
-            dynamicColor = dynamicColor,
+            actions = actions,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(topHeight),
@@ -364,8 +363,8 @@ private fun SectionsHost(
 private fun headerStats(resume: ResumeModel): List<StatModel> {
     if (resume.info.stats.isNotEmpty()) return resume.info.stats
     return listOf(
-        StatModel(resume.experiences.size.toString(), stringResource(Res.string.stat_positions)),
-        StatModel(resume.experiences.count { it.appId != null }.toString(), stringResource(Res.string.stat_apps)),
-        StatModel(resume.skills.size.toString(), stringResource(Res.string.stat_skills)),
+        StatModel(resume.experiences.size.toString(), LocalStrings.current.statPositions),
+        StatModel(resume.experiences.count { it.appId != null }.toString(), LocalStrings.current.statApps),
+        StatModel(resume.skills.size.toString(), LocalStrings.current.statSkills),
     )
 }

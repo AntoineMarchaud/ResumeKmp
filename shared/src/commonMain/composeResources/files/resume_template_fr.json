@@ -1,0 +1,351 @@
+{
+  "info": {
+    "name": "Antoine Marchaud",
+    "job": "Développeur Android freelance",
+    "location": "Paris, France",
+    "stats": [
+      {
+        "value": "19",
+        "label": "Ans dans le logiciel"
+      },
+      {
+        "value": "12",
+        "label": "Ans sur Android"
+      },
+      {
+        "value": "100M+",
+        "label": "Téléch. Akinator"
+      }
+    ]
+  },
+  "about": {
+    "summary": [
+      "Développeur Android freelance : 19 ans d’ingénierie logicielle, dont 12 ans sur Android.",
+      "J’ai développé l’application Akinator sur Android (100M+ téléchargements), puis travaillé sur des apps grand public exigeantes : Proton Pass (sécurité, plusieurs millions d’utilisateurs, 99,7 % crash-free, 4,9/5 sur le Play Store), l’application principale de Louis Vuitton (LVMH), Stellantis, Bouygues Telecom (Android TV) et aujourd’hui France Télévisions.",
+      "Ma particularité : avant Android, j’ai passé 6 ans en R&D streaming vidéo (Envivio, Broadpeak, Harmonic, Technicolor – HLS, DASH, Smooth Streaming). Les sujets lecteur vidéo, OTT et Android TV sont mon terrain naturel."
+    ],
+    "strengths": [
+      "Migrations XML → Jetpack Compose et design systems multi-thèmes réutilisables",
+      "Architectures Clean Architecture / MVVM et MVI maintenables et testées",
+      "Features produit de bout en bout, en lien étroit avec produit, design et QA",
+      "Qualité en production : stabilité, performance, monitoring",
+      "Un workflow outillé par l’IA pour livrer plus vite, sans sacrifier la qualité du code"
+    ]
+  },
+  "contact": {
+    "email": "antoine.marchaud@gmail.com",
+    "githubUrl": "https://github.com/AntoineMarchaud",
+    "linkedInUrl": "https://www.linkedin.com/in/antoine-marchaud-android-developer",
+    "message": "Un projet Android ? Écrivez-moi directement par email ou sur LinkedIn."
+  },
+  "skills": [
+    "Kotlin",
+    "Jetpack Compose",
+    "Compose for TV",
+    "Kotlin Multiplatform",
+    "Compose Multiplatform",
+    "Coroutines & Flow",
+    "Clean Architecture",
+    "MVVM",
+    "Hilt",
+    "Koin",
+    "Retrofit",
+    "Ktor",
+    "Room",
+    "ExoPlayer / Media3",
+    "Android TV",
+    "Tests unitaires et UI",
+    "Design systems",
+    "Streaming vidéo",
+    "Java",
+    "RxJava"
+  ],
+  "experiences": [
+    {
+      "company": "France Télévisions",
+      "role": "Développeur Android",
+      "start": "2026-09",
+      "location": "Paris, France",
+      "description": "Développeur Android chez France Télévisions, le groupe audiovisuel public français.",
+      "logo": "logos/france_televisions.png",
+      "technologies": []
+    },
+    {
+      "company": "Proton",
+      "role": "Développeur Android",
+      "start": "2025-09",
+      "end": "2026-08",
+      "location": "Paris, France",
+      "description": "Expert Android au sein des équipes Proton Pass (gestionnaire de mots de passe) et Proton Authenticator : des applications centrées sur la sécurité et la confidentialité, utilisées par plusieurs millions de personnes.",
+      "highlights": [
+        "99,70 % crash-free maintenu sur un parc de terminaux très hétérogène ; contribution à la note de 4,9/5 sur le Play Store",
+        "Monétisation : nouvel onboarding et nouveau parcours d’upsell avec prix d’introduction",
+        "Portage sur Meta Quest, dont l’autofill sur Meta Horizon OS",
+        "Autofill : refonte de la création et mise à jour d’identifiants, choix du mode d’autofill, écran de diagnostic (Autofill Health)",
+        "Performance : pagination et nouvel index de recherche plein texte pour les gros coffres",
+        "Sécurité : Pass Monitor (mots de passe compromis et réutilisés), évaluation renforcée de la robustesse, historique des mots de passe",
+        "Et aussi : dossiers, onglet Explore, télémétrie Growth, partage de l’app avec ses proches"
+      ],
+      "technologies": [
+        "Kotlin",
+        "Jetpack Compose",
+        "Clean Architecture",
+        "MVVM",
+        "Hilt",
+        "Coroutines & Flow"
+      ],
+      "appId": "proton.android.pass",
+      "logo": "logos/proton.png"
+    },
+    {
+      "company": "Bouygues Telecom",
+      "role": "Développeur Android",
+      "start": "2025-01",
+      "end": "2025-06",
+      "location": "Paris, France",
+      "description": "Développeur Android au sein de The Lab, l’équipe innovation de Bouygues Telecom dédiée aux applications Android TV.",
+      "highlights": [
+        "Ensemble ce Soir (Android TV) : refonte complète de l’interface avec une migration vers Jetpack Compose for TV, un système d’animations sur mesure et l’optimisation des couches Data et Domain",
+        "Perplexity (Android TV) : intégration du Text-to-Speech avec surlignage dynamique du texte lu, et mise en place d’une Clean Architecture sur les couches Data et Domain"
+      ],
+      "technologies": [
+        "Kotlin",
+        "Compose for TV",
+        "Clean Architecture",
+        "MVVM",
+        "Coroutines & Flow",
+        "Text-to-Speech"
+      ],
+      "logo": "logos/bouygues_telecom.png"
+    },
+    {
+      "company": "LVMH",
+      "role": "Développeur Android",
+      "start": "2022-11",
+      "end": "2024-12",
+      "location": "Paris, France",
+      "description": "Développeur Android sur l’application principale de Louis Vuitton (LVMH), leader mondial du luxe.",
+      "highlights": [
+        "Refonte UI : migration complète des écrans XML vers Jetpack Compose, refonte vers Clean Architecture et MVVM, injection de dépendances avec Hilt",
+        "Design system : design system multi-thèmes externalisé dans un module autonome réutilisable par les autres équipes, avec une couverture complète en Compose Previews",
+        "Module Silhouette (défilé Louis Vuitton) : module vidéo interactif basé sur ExoPlayer permettant de zoomer sur les points d’intérêt du modèle, avec des animations entre les segments vidéo et une gestion fine du cache",
+        "Formation : montée en compétence d’un développeur interne sur les pratiques Android modernes"
+      ],
+      "technologies": [
+        "Kotlin",
+        "Jetpack Compose",
+        "Clean Architecture",
+        "MVVM",
+        "Coroutines & Flow",
+        "Retrofit",
+        "Hilt",
+        "Room",
+        "ExoPlayer"
+      ],
+      "appId": "com.vuitton.android",
+      "logo": "logos/lvmh.png"
+    },
+    {
+      "company": "Stellantis",
+      "role": "Développeur Android",
+      "start": "2021-11",
+      "end": "2022-11",
+      "location": "Paris, France",
+      "description": "Développeur Android au sein de l’équipe CarOnDemand, l’application de location longue durée B2B du groupe.",
+      "highlights": [
+        "Design system : conception et développement d’un design system complet en Jetpack Compose (boutons, champs, cartes…), devenu la référence UI de toute l’équipe, avec une couverture exhaustive en Compose Previews",
+        "Vue Compose transversale : composant partagé déployé sur l’ensemble des écrans de l’application, avec des animations fluides via MotionLayout Compose",
+        "Migration WebView vers natif : remplacement complet d’un parcours utilisateur en WebView par une expérience native développée from scratch en Jetpack Compose, avec un gain net en performance et en UX"
+      ],
+      "technologies": [
+        "Kotlin",
+        "Jetpack Compose",
+        "Clean Architecture",
+        "MVVM",
+        "Retrofit",
+        "Koin",
+        "MotionLayout"
+      ],
+      "appId": "com.free2move.app",
+      "logo": "logos/stellantis.png"
+    },
+    {
+      "company": "V-Labs",
+      "role": "Développeur Android",
+      "start": "2020-09",
+      "end": "2021-10",
+      "location": "Chartres, France",
+      "description": "Éditeur d’applications.",
+      "highlights": [
+        "Développement from scratch de l’application Menuz : full Kotlin, Coroutines, Flow et StateFlow, Clean Architecture, MVVM, Hilt, CameraX, Retrofit, Room et WorkManager",
+        "Maintenance des applications de la société : Java et Kotlin, Koin et Hilt, Jetpack Navigation, ExoPlayer, Firebase, tests avec Mockito et Espresso",
+        "Chiffrage des différentes maintenances"
+      ],
+      "technologies": [
+        "Kotlin",
+        "Coroutines & Flow",
+        "Clean Architecture",
+        "MVVM",
+        "Hilt",
+        "Koin",
+        "CameraX",
+        "Retrofit",
+        "Room",
+        "ExoPlayer"
+      ],
+      "appId": "com.menuz.app"
+    },
+    {
+      "company": "Good Angel",
+      "role": "Développeur Android",
+      "start": "2018-09",
+      "end": "2020-08",
+      "location": "Paris, France · Télétravail",
+      "highlights": [
+        "Développement et maintien des apps de Good Angel, dont l’application d’éthylotest",
+        "Intégration Bluetooth",
+        "Full remote"
+      ],
+      "technologies": [
+        "Kotlin",
+        "Bluetooth",
+        "MVVM"
+      ]
+    },
+    {
+      "company": "Elokence",
+      "role": "Développeur de l’application Akinator",
+      "start": "2014-09",
+      "end": "2018-07",
+      "location": "Chartres, France",
+      "highlights": [
+        "Architecture et développement des apps Akinator (plus de 100 millions de téléchargements) et Akinator Safari pour Android, sur Google Play et l’Amazon Appstore",
+        "Migration de l’application de Java vers Kotlin",
+        "Mise en place des analytiques et intégration de SDK partenaires",
+        "Mises à jour régulières des produits : achievements, système de récompenses, classement, enregistrement vidéo de sa partie…",
+        "Développement en interne d’outils graphiques en C++11 / Qt utilisés par l’équipe R&D"
+      ],
+      "technologies": [
+        "Java",
+        "Kotlin",
+        "Retrofit",
+        "RxJava",
+        "SQLite",
+        "Firebase",
+        "C++ / Qt"
+      ],
+      "appId": "com.digidust.elokence.akinator.freemium"
+    },
+    {
+      "company": "EBP Informatique",
+      "role": "Développeur C++",
+      "start": "2014-01",
+      "end": "2014-09",
+      "location": "Rambouillet, France",
+      "highlights": [
+        "Développement et maintien des produits de l’entreprise dans une équipe de 4 personnes",
+        "Ajout de fonctionnalités au logiciel de comptabilité"
+      ],
+      "technologies": [
+        "C++",
+        "Visual Studio"
+      ],
+      "logo": "logos/ebp.png"
+    },
+    {
+      "company": "MediaKind",
+      "role": "Développeur C++",
+      "start": "2012-02",
+      "end": "2013-12",
+      "location": "Rennes, France",
+      "highlights": [
+        "Ingénieur R&D sur les projets avancés (MediaKind, ex-Envivio)",
+        "Preuves de concept et nouvelles fonctionnalités pour les produits de streaming vidéo Muse et Halo"
+      ],
+      "technologies": [
+        "C++",
+        "HLS",
+        "DASH",
+        "Smooth Streaming"
+      ]
+    },
+    {
+      "company": "Broadpeak",
+      "role": "Développeur C++",
+      "start": "2011-06",
+      "end": "2012-02",
+      "location": "Rennes, France",
+      "highlights": [
+        "Outil de test MFC / C++ pour les serveurs de diffusion vidéo"
+      ],
+      "technologies": [
+        "C++",
+        "MFC",
+        "Streaming vidéo"
+      ]
+    },
+    {
+      "company": "Vantiva",
+      "role": "Développeur C++",
+      "start": "2011-02",
+      "end": "2011-06",
+      "location": "Rennes, France",
+      "highlights": [
+        "Développement Linux de fonctionnalités de streaming vidéo (Vantiva, ex-Technicolor)"
+      ],
+      "technologies": [
+        "C++",
+        "Linux",
+        "Streaming vidéo"
+      ],
+      "logo": "logos/vantiva.png"
+    },
+    {
+      "company": "Harmonic",
+      "role": "Développeur C++",
+      "start": "2010-04",
+      "end": "2010-09",
+      "location": "Rennes, France",
+      "highlights": [
+        "Fonctionnalités de streaming vidéo (Harmonic, ex-Thomson Video Networks)"
+      ],
+      "technologies": [
+        "C++",
+        "Streaming vidéo"
+      ],
+      "logo": "logos/harmonic.png"
+    },
+    {
+      "company": "Proservia (ManpowerGroup)",
+      "role": "Développeur C++ (consultant)",
+      "start": "2007-07",
+      "end": "2010-04",
+      "location": "Rennes, France",
+      "highlights": [
+        "Projets au forfait pour les clients de l’ESN, principalement Orange, autour du streaming vidéo"
+      ],
+      "technologies": [
+        "C++",
+        "Streaming vidéo"
+      ],
+      "logo": "logos/manpowergroup.png"
+    }
+  ],
+  "education": [
+    {
+      "school": "Université de Rennes 1",
+      "degree": "Diplôme d’ingénieur, Ingénierie informatique / Imagerie numérique",
+      "period": "2004 – 2007"
+    }
+  ],
+  "languages": [
+    {
+      "name": "Français",
+      "level": "Langue maternelle"
+    },
+    {
+      "name": "Anglais",
+      "level": "Professionnel"
+    }
+  ]
+}
