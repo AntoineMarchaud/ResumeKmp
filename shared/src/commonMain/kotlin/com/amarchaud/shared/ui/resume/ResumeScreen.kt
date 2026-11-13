@@ -1,7 +1,6 @@
 package com.amarchaud.shared.ui.resume
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -36,7 +35,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -146,14 +144,6 @@ private fun CollapsingLayout(
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val navigationBarsBottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-
-    // A new section starts from the top: bring the header back.
-    LaunchedEffect(section) {
-        val state = scrollBehavior.state
-        if (state.heightOffset != 0f) {
-            animate(initialValue = state.heightOffset, targetValue = 0f) { value, _ -> state.heightOffset = value }
-        }
-    }
 
     Box(
         modifier = Modifier

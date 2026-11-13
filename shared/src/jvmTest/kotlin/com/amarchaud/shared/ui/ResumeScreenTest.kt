@@ -5,15 +5,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isSelectable
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipe
 import androidx.compose.ui.test.v2.runComposeUiTest
 import com.amarchaud.shared.data.Language
 import com.amarchaud.shared.ui.i18n.LocalStrings
@@ -52,6 +57,27 @@ class ResumeScreenTest {
 
         onNode(tab("Contact")).performClick()
         onNodeWithText("Let’s work together").assertIsDisplayed()
+    }
+
+    @Test
+    fun headerStaysCollapsedWhenChangingSection() = runComposeUiTest {
+        setContent {
+            ResumeAppTheme {
+                ResumeScreen(resume = PreviewData.resume, layout = ResumeLayout.Compact, dynamicColor = null)
+            }
+        }
+        // The key figures only appear in the expanded header.
+        onNodeWithText("Years in software").assertIsDisplayed()
+
+        onRoot().performTouchInput {
+            swipe(start = Offset(centerX, height * 0.75f), end = Offset(centerX, height * 0.15f), durationMillis = 400)
+        }
+        waitForIdle()
+        onNodeWithText("Years in software").assertIsNotDisplayed()
+
+        onNode(tab("Experience")).performClick()
+        waitForIdle()
+        onNodeWithText("Years in software").assertIsNotDisplayed()
     }
 
     @Test
