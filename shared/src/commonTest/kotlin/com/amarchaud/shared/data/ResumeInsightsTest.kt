@@ -83,22 +83,66 @@ class ResumeInsightsTest {
         assertEquals("FT", initialsOf("France Télévisions"))
     }
 
+    private fun resume(experiences: List<ExperienceModel>, focus: String? = null) = ResumeModel(
+        info = InfoModel(name = "Name", job = "Job"),
+        experiences = experiences,
+        skills = emptyList(),
+        contact = ContactModel(email = "me@example.com"),
+        focus = focus,
+    )
+
     @Test
     fun `technologies are ranked by number of positions`() {
-        val resume = ResumeModel(
-            info = InfoModel(name = "Name", job = "Job"),
-            experiences = listOf(
-                experience(technologies = listOf("Kotlin", "Compose")),
-                experience(technologies = listOf("Kotlin", "Kotlin", "Room")),
-                experience(technologies = listOf("Compose", "Kotlin")),
-            ),
-            skills = emptyList(),
-            contact = ContactModel(email = "me@example.com"),
+        val positions = listOf(
+            experience(technologies = listOf("Kotlin", "Compose")),
+            experience(technologies = listOf("Kotlin", "Kotlin", "Room")),
+            experience(technologies = listOf("Compose", "Kotlin")),
         )
         assertEquals(
             listOf(TechnologyUsage("Kotlin", 3), TechnologyUsage("Compose", 2), TechnologyUsage("Room", 1)),
-            resume.technologyUsage(),
+            positions.technologyUsage(),
         )
+    }
+
+    @Test
+    fun `without focus every position belongs to the main career`() {
+        val positions = listOf(experience(technologies = listOf("Kotlin")), experience(technologies = listOf("C++")))
+        val split = resume(positions).careerSplit()
+        assertNull(split.focus)
+        assertEquals(positions, split.focusPositions)
+        assertTrue(split.otherPositions.isEmpty())
+    }
+
+    @Test
+    fun `focus separates the earlier career`() {
+        val android = experience(start = "2014-09", end = "2018-07", technologies = listOf("Android", "Kotlin"))
+        val lastCpp = experience(start = "2014-01", end = "2014-09", technologies = listOf("C++"))
+        val firstCpp = experience(start = "2007-07", end = "2010-04", technologies = listOf("C++", "Video streaming"))
+        val split = resume(listOf(android, lastCpp, firstCpp), focus = "Android").careerSplit()
+        assertEquals("Android", split.focus)
+        assertEquals(listOf(android), split.focusPositions)
+        assertEquals(listOf(lastCpp, firstCpp), split.otherPositions)
+        assertEquals(2014, split.focusSinceYear)
+        assertEquals(2007..2014, split.otherYears)
+        assertTrue(split.othersAreEarlier)
+    }
+
+    @Test
+    fun `focus used by no position is ignored`() {
+        val positions = listOf(experience(technologies = listOf("C++")))
+        val split = resume(positions, focus = "Android").careerSplit()
+        assertNull(split.focus)
+        assertEquals(positions, split.focusPositions)
+        assertTrue(split.otherPositions.isEmpty())
+    }
+
+    @Test
+    fun `positions after the start of the focus career are not earlier`() {
+        val positions = listOf(
+            experience(start = "2015-01", end = "2016-01", technologies = listOf("Android")),
+            experience(start = "2017-01", technologies = listOf("iOS")),
+        )
+        assertFalse(resume(positions, focus = "Android").careerSplit().othersAreEarlier)
     }
 
     @Test

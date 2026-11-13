@@ -67,14 +67,51 @@ fun initialsOf(name: String, max: Int = 2): String =
 /** A technology and the number of positions it was used in. */
 data class TechnologyUsage(val name: String, val positions: Int)
 
-/** Technologies sorted by the number of positions they appear in, most used first. */
-fun ResumeModel.technologyUsage(): List<TechnologyUsage> =
-    experiences
-        .flatMap { it.technologies.distinct() }
+/** Technologies of these positions, sorted by the number of positions they appear in, most used first. */
+fun List<ExperienceModel>.technologyUsage(): List<TechnologyUsage> =
+    flatMap { it.technologies.distinct() }
         .groupingBy { it }
         .eachCount()
         .map { (name, count) -> TechnologyUsage(name, count) }
         .sortedWith(compareByDescending<TechnologyUsage> { it.positions }.thenBy { it.name })
+
+/**
+ * Positions of the [ResumeModel.focus] career, and the other ones, summarized apart. Without focus, or
+ * when no position uses it, [focus] is null and every position belongs to the main career.
+ */
+data class CareerSplit(
+    val focus: String?,
+    val focusPositions: List<ExperienceModel>,
+    val otherPositions: List<ExperienceModel>,
+) {
+    /** Year of the first position of the focus career. */
+    val focusSinceYear: Int? get() = focusPositions.mapNotNull { it.startMonth?.year }.minOrNull()
+
+    /** Years covered by the other positions, e.g. `2007..2014`. */
+    val otherYears: IntRange?
+        get() {
+            val years = otherPositions.flatMap { listOfNotNull(it.startMonth?.year, it.endMonth?.year) }
+            return if (years.isEmpty()) null else years.min()..years.max()
+        }
+
+    /** Whether every other position ended before the focus career started. */
+    val othersAreEarlier: Boolean
+        get() {
+            val focusStart = focusPositions.mapNotNull { it.startMonth }.minOrNull() ?: return false
+            return otherPositions.all { other -> other.endMonth?.let { it <= focusStart } == true }
+        }
+}
+
+/** Splits the positions between the [ResumeModel.focus] career and the other ones. */
+fun ResumeModel.careerSplit(): CareerSplit {
+    val focus = focus
+    val (focusPositions, otherPositions) = experiences.partition { focus != null && focus in it.technologies }
+    return if (focus == null || focusPositions.isEmpty()) {
+        CareerSplit(focus = null, focusPositions = experiences, otherPositions = emptyList())
+    } else {
+        CareerSplit(focus = focus, focusPositions = focusPositions, otherPositions = otherPositions)
+    }
+}
 
 /** Removes the scheme, `www.`, query and trailing slash of a URL: `https://www.github.com/me/` → `github.com/me`. */
 fun displayUrl(url: String): String =

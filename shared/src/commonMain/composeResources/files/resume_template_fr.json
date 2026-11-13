@@ -39,6 +39,7 @@
     "linkedInUrl": "https://www.linkedin.com/in/antoine-marchaud-android-developer",
     "message": "Un projet Android ? Écrivez-moi directement par email ou sur LinkedIn."
   },
+  "focus": "Android",
   "skills": [
     "Android",
     "Kotlin",

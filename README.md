@@ -99,6 +99,8 @@ description and link preview in [`index.html`](composeApp/src/webMain/resources/
     }
   ],
   "skills": ["Kotlin", "Jetpack Compose"],
+  "focus": "Kotlin",                                   // optional: the usage chart only counts the positions using it,
+                                                       // the other ones are summarized apart
   "education": [{ "school": "University", "degree": "Master's degree", "period": "2010 – 2015" }], // optional
   "languages": [{ "name": "English", "level": "Fluent" }], // optional
   "contact": {

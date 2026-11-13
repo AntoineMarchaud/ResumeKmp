@@ -23,6 +23,7 @@ class BundledResumeTest {
             assertEquals(english.experiences.map { Triple(it.company, it.start, it.end) }, translation.experiences.map { Triple(it.company, it.start, it.end) })
             assertEquals(english.experiences.map { it.logo }, translation.experiences.map { it.logo })
             assertEquals(english.skills.size, translation.skills.size)
+            assertEquals(english.focus, translation.focus)
         }
     }
 

@@ -14,6 +14,11 @@ data class ResumeModel(
     val about: AboutModel? = null,
     val experiences: List<ExperienceModel>,
     val skills: List<String>,
+    /**
+     * Main technology of the career, e.g. `Android`: the usage chart only counts the positions using it,
+     * and the other positions are summarized apart.
+     */
+    val focus: String? = null,
     val education: List<EducationModel> = emptyList(),
     val languages: List<LanguageModel> = emptyList(),
     val contact: ContactModel,

@@ -29,8 +29,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.amarchaud.shared.data.CareerSplit
+import com.amarchaud.shared.data.ExperienceModel
 import com.amarchaud.shared.data.ResumeModel
 import com.amarchaud.shared.data.TechnologyUsage
+import com.amarchaud.shared.data.careerSplit
 import com.amarchaud.shared.data.technologyUsage
 import com.amarchaud.shared.ui.components.CountPill
 import com.amarchaud.shared.ui.components.GroupTitle
@@ -39,6 +42,7 @@ import com.amarchaud.shared.ui.components.Reveal
 import com.amarchaud.shared.ui.components.SectionHeader
 import com.amarchaud.shared.ui.components.SectionList
 import com.amarchaud.shared.ui.components.SkillChip
+import com.amarchaud.shared.ui.components.TechChip
 import com.amarchaud.shared.ui.components.rememberRevealState
 import com.amarchaud.shared.ui.i18n.LocalStrings
 import com.amarchaud.shared.ui.preview.PreviewData
@@ -54,8 +58,9 @@ fun SkillsSection(
     modifier: Modifier = Modifier,
 ) {
     val revealState = rememberRevealState()
-    val usage = remember(resume) { resume.technologyUsage().take(MAX_USAGE_ROWS) }
-    val positions = resume.experiences.size
+    val split = remember(resume) { resume.careerSplit() }
+    val usage = remember(split) { split.focusPositions.technologyUsage().take(MAX_USAGE_ROWS) }
+    val positions = split.focusPositions.size
 
     SectionList(contentPadding = contentPadding, modifier = modifier) {
         item(key = "header") {
@@ -84,12 +89,75 @@ fun SkillsSection(
                     GroupTitle(text = LocalStrings.current.skillsUsageTitle)
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = LocalStrings.current.skillsUsageSubtitle,
+                        text = usageSubtitle(split),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Spacer(modifier = Modifier.height(14.dp))
                     UsageCard(usage = usage, totalPositions = positions)
+                }
+            }
+        }
+        if (split.otherPositions.isNotEmpty()) {
+            item(key = "other-positions") {
+                Column(modifier = Modifier.padding(top = 36.dp)) {
+                    GroupTitle(text = otherPositionsTitle(split))
+                    Spacer(modifier = Modifier.height(14.dp))
+                    OtherPositionsCard(positions = split.otherPositions)
+                }
+            }
+        }
+    }
+}
+
+/** `Across my 8 Android positions, since 2014`, or the generic subtitle without focus. */
+@Composable
+private fun usageSubtitle(split: CareerSplit): String {
+    val focus = split.focus
+    val year = split.focusSinceYear
+    return if (focus != null && year != null) {
+        LocalStrings.current.skillsUsageFocusSubtitle(split.focusPositions.size, focus, year)
+    } else {
+        LocalStrings.current.skillsUsageSubtitle
+    }
+}
+
+/** `Before Android · 2007 – 2014`. */
+@Composable
+private fun otherPositionsTitle(split: CareerSplit): String {
+    val focus = split.focus
+    val title = if (focus != null && split.othersAreEarlier) {
+        LocalStrings.current.skillsEarlierTitle(focus)
+    } else {
+        LocalStrings.current.skillsOtherTitle
+    }
+    val years = split.otherYears?.let { if (it.first == it.last) "${it.first}" else "${it.first} – ${it.last}" }
+    return if (years == null) title else "$title · $years"
+}
+
+/** The positions outside the focus career: one sentence, then their other technologies. */
+@Composable
+private fun OtherPositionsCard(positions: List<ExperienceModel>) {
+    val usage = remember(positions) { positions.technologyUsage() }
+    val main = usage.firstOrNull()
+    ResumeCard(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(20.dp)) {
+            Text(
+                text = if (main == null) {
+                    LocalStrings.current.positionsCount(positions.size)
+                } else {
+                    LocalStrings.current.skillsOtherSummary(positions.size, main.name, main.positions == positions.size)
+                },
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+            if (usage.size > 1) {
+                Spacer(modifier = Modifier.height(12.dp))
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    usage.drop(1).forEach { TechChip(text = it.name) }
                 }
             }
         }
