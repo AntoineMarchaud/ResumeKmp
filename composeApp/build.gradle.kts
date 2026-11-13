@@ -43,7 +43,18 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
         }
+        jvmTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.io.core)
+        }
     }
+}
+
+// WebPageTest reads the web page and the resume directly, so they must invalidate the test results.
+tasks.withType<Test>().configureEach {
+    inputs.files("src/webMain/resources/index.html", "../shared/src/commonMain/composeResources/files/resume_template.json")
+        .withPropertyName("webPageTestFiles")
+        .withPathSensitivity(PathSensitivity.RELATIVE)
 }
 
 compose.desktop {

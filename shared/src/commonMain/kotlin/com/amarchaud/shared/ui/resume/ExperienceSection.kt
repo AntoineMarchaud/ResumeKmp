@@ -8,9 +8,8 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,7 +24,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -44,15 +42,11 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.coerceIn
 import androidx.compose.ui.unit.dp
 import com.amarchaud.shared.data.ExperienceModel
 import com.amarchaud.shared.data.currentYearMonth
@@ -66,6 +60,7 @@ import com.amarchaud.shared.ui.components.CountPill
 import com.amarchaud.shared.ui.components.CurrentBadge
 import com.amarchaud.shared.ui.components.MetaItem
 import com.amarchaud.shared.ui.components.Monogram
+import com.amarchaud.shared.ui.components.LogoTile
 import com.amarchaud.shared.ui.components.ResumeCard
 import com.amarchaud.shared.ui.components.Reveal
 import com.amarchaud.shared.ui.components.SectionHeader
@@ -201,16 +196,20 @@ private fun ExperienceCard(
         label = "chevron",
     )
 
-    ResumeCard(
-        modifier = modifier,
-        onClick = if (hasDetails) {
-            { expanded = !expanded }
-        } else {
-            null
-        },
-        onClickLabel = if (expanded) LocalStrings.current.experienceCollapse else LocalStrings.current.experienceExpand,
-    ) {
-        Column(modifier = Modifier.padding(18.dp)) {
+    val toggleLabel = if (expanded) LocalStrings.current.experienceCollapse else LocalStrings.current.experienceExpand
+    ResumeCard(modifier = modifier) {
+        // Only the header toggles the card, so that selecting text in the details keeps it open.
+        Column(
+            modifier = Modifier
+                .then(
+                    if (hasDetails) {
+                        Modifier.clickable(onClickLabel = toggleLabel) { expanded = !expanded }
+                    } else {
+                        Modifier
+                    },
+                )
+                .padding(18.dp),
+        ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 CompanyLogo(experience = experience, index = index)
                 Spacer(modifier = Modifier.width(14.dp))
@@ -260,24 +259,24 @@ private fun ExperienceCard(
                     experience.technologies.forEach { TechChip(text = it) }
                 }
             }
+        }
 
-            AnimatedVisibility(
-                visible = expanded,
-                enter = expandVertically(
-                    animationSpec = spring(
-                        dampingRatio = Spring.DampingRatioNoBouncy,
-                        stiffness = Spring.StiffnessMediumLow,
-                    ),
-                ) + fadeIn(),
-                exit = shrinkVertically(
-                    animationSpec = spring(
-                        dampingRatio = Spring.DampingRatioNoBouncy,
-                        stiffness = Spring.StiffnessMedium,
-                    ),
-                ) + fadeOut(),
-            ) {
-                ExperienceDetails(experience = experience)
-            }
+        AnimatedVisibility(
+            visible = expanded,
+            enter = expandVertically(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioNoBouncy,
+                    stiffness = Spring.StiffnessMediumLow,
+                ),
+            ) + fadeIn(),
+            exit = shrinkVertically(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioNoBouncy,
+                    stiffness = Spring.StiffnessMedium,
+                ),
+            ) + fadeOut(),
+        ) {
+            ExperienceDetails(experience = experience)
         }
     }
 }
@@ -289,40 +288,6 @@ private fun CompanyLogo(experience: ExperienceModel, index: Int) {
         is BundledImage.Loaded -> LogoTile(image = logo.image)
         BundledImage.Loading -> LogoTile(image = null)
         BundledImage.Missing -> CompanyMonogram(experience = experience, index = index)
-    }
-}
-
-private val LogoTileHeight = 44.dp
-private val LogoTileMaxWidth = 104.dp
-private val LogoTileHorizontalPadding = 8.dp
-private val LogoTileVerticalPadding = 7.dp
-
-/**
- * Logos sit on a white tile whatever the theme, as most of them are designed for light backgrounds.
- * The tile follows the logo's aspect ratio, so that wordmarks stay readable.
- */
-@Composable
-private fun LogoTile(image: ImageBitmap?) {
-    val shape = RoundedCornerShape(14.dp)
-    val width = if (image == null) {
-        LogoTileHeight
-    } else {
-        val contentHeight = LogoTileHeight - LogoTileVerticalPadding * 2
-        (contentHeight * (image.width.toFloat() / image.height) + LogoTileHorizontalPadding * 2)
-            .coerceIn(LogoTileHeight, LogoTileMaxWidth)
-    }
-    Box(
-        modifier = Modifier
-            .size(width = width, height = LogoTileHeight)
-            .clip(shape)
-            .background(Color.White)
-            .border(width = 1.dp, color = ResumeTheme.colors.cardBorder, shape = shape)
-            .padding(horizontal = LogoTileHorizontalPadding, vertical = LogoTileVerticalPadding),
-        contentAlignment = Alignment.Center,
-    ) {
-        if (image != null) {
-            Image(bitmap = image, contentDescription = null, contentScale = ContentScale.Fit)
-        }
     }
 }
 
@@ -342,7 +307,7 @@ private fun CompanyMonogram(experience: ExperienceModel, index: Int) {
 @Composable
 private fun ExperienceDetails(experience: ExperienceModel) {
     val uriHandler = LocalUriHandler.current
-    Column(modifier = Modifier.padding(top = 18.dp)) {
+    Column(modifier = Modifier.padding(start = 18.dp, end = 18.dp, bottom = 18.dp)) {
         HorizontalDivider(color = ResumeTheme.colors.cardBorder)
         Spacer(modifier = Modifier.height(16.dp))
         experience.description?.let {

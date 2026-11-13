@@ -8,7 +8,6 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -53,8 +52,6 @@ import com.amarchaud.shared.ui.theme.ResumeTheme
 @Composable
 fun ResumeCard(
     modifier: Modifier = Modifier,
-    onClick: (() -> Unit)? = null,
-    onClickLabel: String? = null,
     shape: Shape = MaterialTheme.shapes.large,
     content: @Composable ColumnScope.() -> Unit,
 ) {
@@ -63,14 +60,7 @@ fun ResumeCard(
         modifier = modifier
             .clip(shape)
             .background(colors.card)
-            .border(width = 1.dp, color = colors.cardBorder, shape = shape)
-            .then(
-                if (onClick != null) {
-                    Modifier.clickable(onClickLabel = onClickLabel, onClick = onClick)
-                } else {
-                    Modifier
-                },
-            ),
+            .border(width = 1.dp, color = colors.cardBorder, shape = shape),
         content = content,
     )
 }

@@ -27,6 +27,64 @@
     <meta name="twitter:description" content="19 years of software engineering, 12 of them on Android. Interactive resume built with Compose Multiplatform.">
     <meta name="twitter:image" content="https://antoinemarchaud.github.io/ResumeKmp/og-image.png">
 
+    <!-- Structured data for search engines. -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "url": "https://antoinemarchaud.github.io/ResumeKmp/",
+        "mainEntity": {
+            "@type": "Person",
+            "name": "Antoine Marchaud",
+            "jobTitle": "Freelance Android Developer",
+            "url": "https://antoinemarchaud.github.io/ResumeKmp/",
+            "image": "https://antoinemarchaud.github.io/ResumeKmp/composeResources/com.amarchaud.shared.resources/files/photo.jpg",
+            "description": "Freelance Android developer with 19 years of software engineering, 12 of them on Android.",
+            "sameAs": [
+                "https://www.linkedin.com/in/antoine-marchaud-android-developer",
+                "https://github.com/AntoineMarchaud"
+            ],
+            "knowsAbout": [
+                "Kotlin",
+                "Jetpack Compose",
+                "Compose for TV",
+                "Kotlin Multiplatform",
+                "Compose Multiplatform",
+                "Coroutines & Flow",
+                "Clean Architecture",
+                "MVVM",
+                "Hilt",
+                "Koin",
+                "Retrofit",
+                "Ktor",
+                "Room",
+                "ExoPlayer / Media3",
+                "Android TV",
+                "Unit & UI testing",
+                "Design systems",
+                "Video streaming",
+                "Java",
+                "RxJava"
+            ],
+            "knowsLanguage": [
+                "French",
+                "English"
+            ],
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Paris",
+                "addressCountry": "France"
+            },
+            "alumniOf": [
+                {
+                    "@type": "CollegeOrUniversity",
+                    "name": "Université de Rennes 1"
+                }
+            ]
+        }
+    }
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link type="text/css" rel="stylesheet" href="styles.css">
     <script type="application/javascript" src="composeApp.js"></script>
@@ -37,9 +95,211 @@
 <!-- Shown on top while the WebAssembly app loads, then faded out once the resume is displayed. -->
 <div id="loading" role="status" aria-live="polite">
     <div class="avatar">AM<img src="composeResources/com.amarchaud.shared.resources/files/photo.jpg" alt="" onerror="this.remove()"></div>
-    <h1>Antoine Marchaud</h1>
-    <p>Freelance Android Developer</p>
+    <p class="name">Antoine Marchaud</p>
+    <p class="job">Freelance Android Developer</p>
     <div class="spinner" aria-label="Loading"></div>
 </div>
+<!--
+    The resume as plain HTML, for search engines and link previews: the app draws its text on a canvas.
+    It is hidden from screen readers, which read the app itself. Generated from resume_template.json
+    and checked by WebPageTest. The email and phone number are left out on purpose, away from spam bots.
+-->
+<main id="resume" class="visually-hidden" aria-hidden="true">
+    <h1>Antoine Marchaud</h1>
+    <p>Freelance Android Developer · Paris, France</p>
+    <section>
+        <h2>About me</h2>
+        <p>Freelance Android developer with 19 years of software engineering, 12 of them on Android.</p>
+        <p>I built Akinator for Android (100M+ downloads), then worked on demanding consumer apps: Proton Pass (security, millions of users, 99.7% crash-free, rated 4.9 on Google Play), Louis Vuitton’s flagship app (LVMH), Stellantis, Bouygues Telecom (Android TV) and now France Télévisions.</p>
+        <p>Before Android, I spent 6 years in video streaming R&amp;D (Envivio, Broadpeak, Harmonic, Technicolor – HLS, DASH, Smooth Streaming). Video players, OTT and Android TV are my natural playground.</p>
+        <h3>What I bring</h3>
+        <ul>
+            <li>XML → Jetpack Compose migrations and reusable multi-theme design systems</li>
+            <li>Maintainable, tested Clean Architecture / MVVM and MVI codebases</li>
+            <li>End-to-end product features, in close collaboration with product, design and QA</li>
+            <li>Production quality: stability, performance and monitoring</li>
+            <li>An AI-assisted workflow to ship faster without sacrificing code quality</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Experience</h2>
+        <article>
+            <h3>France Télévisions · Android Developer</h3>
+            <p>Sep 2026 – Present · Paris, France</p>
+            <p>Android developer at France Télévisions, the French public broadcaster.</p>
+        </article>
+        <article>
+            <h3>Proton · Android Developer</h3>
+            <p>Sep 2025 – Aug 2026 · Paris, France</p>
+            <p>Android expert on the Proton Pass (password manager) and Proton Authenticator teams: security and privacy focused apps used by millions of people.</p>
+            <ul>
+                <li>Kept a 99.70% crash-free rate on a highly fragmented device fleet and contributed to the 4.9 rating on Google Play</li>
+                <li>Monetization: new onboarding and upsell flow with introductory pricing</li>
+                <li>Ported the app to Meta Quest, including autofill on Meta Horizon OS</li>
+                <li>Autofill: redesigned credential creation and update, autofill mode picker, Autofill Health diagnostic screen</li>
+                <li>Performance: pagination and a new full-text search index for large vaults</li>
+                <li>Security: Pass Monitor (breached and reused passwords), stronger password strength evaluation, password history</li>
+                <li>Also: folders, Explore tab, Growth telemetry, share the app with friends and family</li>
+            </ul>
+            <p>Kotlin, Jetpack Compose, Clean Architecture, MVVM, Hilt, Coroutines &amp; Flow</p>
+        </article>
+        <article>
+            <h3>Bouygues Telecom · Android Developer</h3>
+            <p>Jan 2025 – Jun 2025 · Paris, France</p>
+            <p>Android developer in The Lab, Bouygues Telecom’s innovation team dedicated to Android TV apps.</p>
+            <ul>
+                <li>Ensemble ce Soir (Android TV): complete UI redesign with a migration to Compose for TV, a custom animation system and optimized Data and Domain layers</li>
+                <li>Perplexity (Android TV): Text-to-Speech with live highlighting of the spoken text, and Clean Architecture on the Data and Domain layers</li>
+            </ul>
+            <p>Kotlin, Compose for TV, Clean Architecture, MVVM, Coroutines &amp; Flow, Text-to-Speech</p>
+        </article>
+        <article>
+            <h3>LVMH · Android Developer</h3>
+            <p>Nov 2022 – Dec 2024 · Paris, France</p>
+            <p>Android developer on Louis Vuitton’s flagship app, for the world leader in luxury.</p>
+            <ul>
+                <li>UI overhaul: migrated every XML screen to Jetpack Compose, moved to Clean Architecture and MVVM, introduced Hilt</li>
+                <li>Design system: multi-theme design system shipped as a standalone module reused by other teams, fully covered by Compose Previews</li>
+                <li>Silhouette module (Louis Vuitton runway): interactive ExoPlayer based video module with zoom on points of interest, animated segment transitions and fine-grained caching</li>
+                <li>Mentoring: helped an in-house developer level up on modern Android practices</li>
+            </ul>
+            <p>Kotlin, Jetpack Compose, Clean Architecture, MVVM, Coroutines &amp; Flow, Retrofit, Hilt, Room, ExoPlayer</p>
+        </article>
+        <article>
+            <h3>Stellantis · Android Developer</h3>
+            <p>Nov 2021 – Nov 2022 · Paris, France</p>
+            <p>Android developer in the CarOnDemand team, the group’s B2B long-term car rental app.</p>
+            <ul>
+                <li>Design system: designed and built a complete Jetpack Compose design system (buttons, fields, cards…) that became the team’s UI reference, with exhaustive Compose Previews</li>
+                <li>Cross-app Compose component deployed on every screen, with smooth MotionLayout Compose animations</li>
+                <li>WebView to native: rebuilt a whole WebView user journey from scratch in Jetpack Compose, with clear performance and UX gains</li>
+            </ul>
+            <p>Kotlin, Jetpack Compose, Clean Architecture, MVVM, Retrofit, Koin, MotionLayout</p>
+        </article>
+        <article>
+            <h3>V-Labs · Android Developer</h3>
+            <p>Sep 2020 – Oct 2021 · Chartres, France</p>
+            <p>Mobile app publisher.</p>
+            <ul>
+                <li>Built the Menuz app from scratch: full Kotlin, Coroutines, Flow and StateFlow, Clean Architecture, MVVM, Hilt, CameraX, Retrofit, Room and WorkManager</li>
+                <li>Maintained the company’s apps: Java and Kotlin, Koin and Hilt, Jetpack Navigation, ExoPlayer, Firebase, tests with Mockito and Espresso</li>
+                <li>Estimated the maintenance work of client projects</li>
+            </ul>
+            <p>Kotlin, Coroutines &amp; Flow, Clean Architecture, MVVM, Hilt, Koin, CameraX, Retrofit, Room, ExoPlayer</p>
+        </article>
+        <article>
+            <h3>Good Angel · Android Developer</h3>
+            <p>Sep 2018 – Aug 2020 · Paris, France · Remote</p>
+            <ul>
+                <li>Developed and maintained Good Angel’s apps, including the breathalyzer application</li>
+                <li>Bluetooth integration</li>
+                <li>Fully remote</li>
+            </ul>
+            <p>Kotlin, Bluetooth, MVVM</p>
+        </article>
+        <article>
+            <h3>Elokence · Akinator Android Developer</h3>
+            <p>Sep 2014 – Jul 2018 · Chartres, France</p>
+            <ul>
+                <li>Architected and developed Akinator (100M+ downloads) and Akinator Safari for Android, on Google Play and the Amazon Appstore</li>
+                <li>Migrated the app from Java to Kotlin</li>
+                <li>Analytics and partner SDK integrations</li>
+                <li>Regular product updates: achievements, rewards system, leaderboards, game video recording…</li>
+                <li>Built in-house C++11 / Qt graphics tools for the R&amp;D team</li>
+            </ul>
+            <p>Java, Kotlin, Retrofit, RxJava, SQLite, Firebase, C++ / Qt</p>
+        </article>
+        <article>
+            <h3>EBP Informatique · C++ Developer</h3>
+            <p>Jan 2014 – Sep 2014 · Rambouillet, France</p>
+            <ul>
+                <li>Development and maintenance of the company’s products in a 4-person team</li>
+                <li>Added features to the accounting software</li>
+            </ul>
+            <p>C++, Visual Studio</p>
+        </article>
+        <article>
+            <h3>MediaKind · C++ Developer</h3>
+            <p>Feb 2012 – Dec 2013 · Rennes, France</p>
+            <ul>
+                <li>R&amp;D engineer on advanced projects (MediaKind, ex-Envivio)</li>
+                <li>Proofs of concept and new features for the Muse and Halo video streaming products</li>
+            </ul>
+            <p>C++, HLS, DASH, Smooth Streaming</p>
+        </article>
+        <article>
+            <h3>Broadpeak · C++ Developer</h3>
+            <p>Jun 2011 – Feb 2012 · Rennes, France</p>
+            <ul>
+                <li>MFC / C++ testing tool for the video delivery servers</li>
+            </ul>
+            <p>C++, MFC, Video streaming</p>
+        </article>
+        <article>
+            <h3>Vantiva · C++ Developer</h3>
+            <p>Feb 2011 – Jun 2011 · Rennes, France</p>
+            <ul>
+                <li>Linux development of video streaming features (Vantiva, ex-Technicolor)</li>
+            </ul>
+            <p>C++, Linux, Video streaming</p>
+        </article>
+        <article>
+            <h3>Harmonic · C++ Developer</h3>
+            <p>Apr 2010 – Sep 2010 · Rennes, France</p>
+            <ul>
+                <li>Video streaming features (Harmonic, ex-Thomson Video Networks)</li>
+            </ul>
+            <p>C++, Video streaming</p>
+        </article>
+        <article>
+            <h3>Proservia (ManpowerGroup) · C++ Developer · Consultant</h3>
+            <p>Jul 2007 – Apr 2010 · Rennes, France</p>
+            <ul>
+                <li>Fixed-price projects for the consulting firm’s clients, mainly Orange, around video streaming</li>
+            </ul>
+            <p>C++, Video streaming</p>
+        </article>
+    </section>
+    <section>
+        <h2>Skills</h2>
+        <ul>
+            <li>Kotlin</li>
+            <li>Jetpack Compose</li>
+            <li>Compose for TV</li>
+            <li>Kotlin Multiplatform</li>
+            <li>Compose Multiplatform</li>
+            <li>Coroutines &amp; Flow</li>
+            <li>Clean Architecture</li>
+            <li>MVVM</li>
+            <li>Hilt</li>
+            <li>Koin</li>
+            <li>Retrofit</li>
+            <li>Ktor</li>
+            <li>Room</li>
+            <li>ExoPlayer / Media3</li>
+            <li>Android TV</li>
+            <li>Unit &amp; UI testing</li>
+            <li>Design systems</li>
+            <li>Video streaming</li>
+            <li>Java</li>
+            <li>RxJava</li>
+        </ul>
+    </section>
+    <section>
+        <h2>Education</h2>
+        <p>Université de Rennes 1 · Engineering degree, Computer Science / Digital Imaging · 2004 – 2007</p>
+    </section>
+    <section>
+        <h2>Languages</h2>
+        <p>French (Native), English (Professional working)</p>
+    </section>
+    <section>
+        <h2>Contact</h2>
+        <ul>
+            <li><a href="https://www.linkedin.com/in/antoine-marchaud-android-developer">LinkedIn</a></li>
+            <li><a href="https://github.com/AntoineMarchaud">GitHub</a></li>
+        </ul>
+    </section>
+</main>
 </body>
 </html>

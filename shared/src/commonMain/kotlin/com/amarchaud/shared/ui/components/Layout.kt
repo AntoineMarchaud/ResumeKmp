@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -30,6 +31,8 @@ val ContentMaxWidth = 760.dp
 /**
  * Vertical list whose content is centered and capped to [ContentMaxWidth], while the whole area
  * stays scrollable (and keeps driving nested scroll) on tablets and unfolded foldables.
+ *
+ * Its text is selectable, so that it can be copied into an email or an applicant tracking system.
  */
 @Composable
 fun SectionList(
@@ -43,17 +46,19 @@ fun SectionList(
         val start = contentPadding.calculateStartPadding(layoutDirection)
         val end = contentPadding.calculateEndPadding(layoutDirection)
         val extra = max(0.dp, (maxWidth - start - end - ContentMaxWidth) / 2)
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            state = state,
-            contentPadding = PaddingValues(
-                start = start + extra,
-                end = end + extra,
-                top = contentPadding.calculateTopPadding(),
-                bottom = contentPadding.calculateBottomPadding(),
-            ),
-            content = content,
-        )
+        SelectionContainer(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                state = state,
+                contentPadding = PaddingValues(
+                    start = start + extra,
+                    end = end + extra,
+                    top = contentPadding.calculateTopPadding(),
+                    bottom = contentPadding.calculateBottomPadding(),
+                ),
+                content = content,
+            )
+        }
     }
 }
 
