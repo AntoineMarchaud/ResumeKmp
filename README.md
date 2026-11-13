@@ -126,7 +126,10 @@ Files written for the first version of the template (with a free-text `period` i
 | Web (JavaScript, older browsers) | `./gradlew :composeApp:jsBrowserDevelopmentRun` |
 
 The web version is deployed to [GitHub Pages](https://antoinemarchaud.github.io/ResumeKmp/) by the
-[`deploy-web`](.github/workflows/deploy-web.yml) workflow on every push to `main`.
+[`deploy-web`](.github/workflows/deploy-web.yml) workflow on every push to `main`. It is assembled by
+`./gradlew :composeApp:webDistribution` (in `composeApp/build/dist/web`): browsers get the WebAssembly app, except
+Safari and every browser on iOS and iPadOS, which get the JavaScript app, as Apple's WebKit leaves the canvas of the
+WebAssembly app blank.
 
 ## Architecture
 

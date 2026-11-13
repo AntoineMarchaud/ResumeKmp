@@ -57,6 +57,20 @@ tasks.withType<Test>().configureEach {
         .withPathSensitivity(PathSensitivity.RELATIVE)
 }
 
+// The website: the WebAssembly app, plus the JavaScript app for Apple's WebKit (Safari, and every browser
+// on iOS and iPadOS), where the WebAssembly app runs but its canvas stays blank. index.html picks the bundle.
+tasks.register<Sync>("webDistribution") {
+    description = "Assembles the website, with the WebAssembly app and its JavaScript fallback."
+    group = "distribution"
+    from(tasks.named("wasmJsBrowserDistribution"))
+    from(tasks.named("jsBrowserDistribution")) {
+        include("composeApp.js", "composeApp.js.map")
+        rename("composeApp\\.js", "composeApp-js.js")
+        filter { line -> line.replace("sourceMappingURL=composeApp.js.map", "sourceMappingURL=composeApp-js.js.map") }
+    }
+    into(layout.buildDirectory.dir("dist/web"))
+}
+
 compose.desktop {
     application {
         mainClass = "com.amarchaud.resumekmp.MainKt"

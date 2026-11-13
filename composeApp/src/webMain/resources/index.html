@@ -88,7 +88,6 @@
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link type="text/css" rel="stylesheet" href="styles.css">
-    <script type="application/javascript" src="composeApp.js"></script>
 </head>
 <body>
 <!-- Compose renders the app in this container. -->
@@ -100,6 +99,18 @@
     <p class="job">Freelance Android Developer</p>
     <div class="spinner" aria-label="Loading"></div>
 </div>
+<script>
+    // Apple's WebKit (Safari, and every browser on iOS and iPadOS) runs the WebAssembly app but leaves its
+    // canvas blank: those browsers get the JavaScript app instead. Both are built by :composeApp:webDistribution.
+    (function () {
+        var ua = navigator.userAgent;
+        var appleMobile = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+        var desktopSafari = /Safari\//.test(ua) && !/Chrome|Chromium|Edg|OPR|Android/.test(ua);
+        var script = document.createElement("script");
+        script.src = appleMobile || desktopSafari ? "composeApp-js.js" : "composeApp.js";
+        document.body.appendChild(script);
+    })();
+</script>
 <!--
     The resume as plain HTML, for search engines and link previews: the app draws its text on a canvas.
     It is hidden from screen readers, which read the app itself. Generated from resume_template.json

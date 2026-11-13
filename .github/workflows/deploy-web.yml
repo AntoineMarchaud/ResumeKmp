@@ -27,14 +27,14 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v6
 
-      - name: Build the WebAssembly app
-        run: ./gradlew :composeApp:wasmJsBrowserDistribution
+      - name: Build the website (WebAssembly app and its JavaScript fallback)
+        run: ./gradlew :composeApp:webDistribution
 
       - uses: actions/configure-pages@v6
 
       - uses: actions/upload-pages-artifact@v5
         with:
-          path: composeApp/build/dist/wasmJs/productionExecutable
+          path: composeApp/build/dist/web
 
   deploy:
     needs: build
