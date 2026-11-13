@@ -40,6 +40,7 @@
     "message": "Un projet Android ? Écrivez-moi directement par email ou sur LinkedIn."
   },
   "skills": [
+    "Android",
     "Kotlin",
     "Jetpack Compose",
     "Compose for TV",
@@ -69,7 +70,9 @@
       "location": "Paris, France",
       "description": "Développeur Android chez France Télévisions, le groupe audiovisuel public français.",
       "logo": "logos/france_televisions.png",
-      "technologies": []
+      "technologies": [
+        "Android"
+      ]
     },
     {
       "company": "Proton",
@@ -88,6 +91,7 @@
         "Et aussi : dossiers, onglet Explore, télémétrie Growth, partage de l’app avec ses proches"
       ],
       "technologies": [
+        "Android",
         "Kotlin",
         "Jetpack Compose",
         "Clean Architecture",
@@ -110,6 +114,7 @@
         "Perplexity (Android TV) : intégration du Text-to-Speech avec surlignage dynamique du texte lu, et mise en place d’une Clean Architecture sur les couches Data et Domain"
       ],
       "technologies": [
+        "Android",
         "Kotlin",
         "Compose for TV",
         "Clean Architecture",
@@ -133,6 +138,7 @@
         "Formation : montée en compétence d’un développeur interne sur les pratiques Android modernes"
       ],
       "technologies": [
+        "Android",
         "Kotlin",
         "Jetpack Compose",
         "Clean Architecture",
@@ -159,6 +165,7 @@
         "Migration WebView vers natif : remplacement complet d’un parcours utilisateur en WebView par une expérience native développée from scratch en Jetpack Compose, avec un gain net en performance et en UX"
       ],
       "technologies": [
+        "Android",
         "Kotlin",
         "Jetpack Compose",
         "Clean Architecture",
@@ -183,6 +190,7 @@
         "Chiffrage des différentes maintenances"
       ],
       "technologies": [
+        "Android",
         "Kotlin",
         "Coroutines & Flow",
         "Clean Architecture",
@@ -208,6 +216,7 @@
         "Full remote"
       ],
       "technologies": [
+        "Android",
         "Kotlin",
         "Bluetooth",
         "MVVM"
@@ -227,6 +236,7 @@
         "Développement en interne d’outils graphiques en C++11 / Qt utilisés par l’équipe R&D"
       ],
       "technologies": [
+        "Android",
         "Java",
         "Kotlin",
         "Retrofit",

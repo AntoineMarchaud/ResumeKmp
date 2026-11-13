@@ -40,6 +40,7 @@
     "message": "Got an Android project? Reach out directly by email or on LinkedIn."
   },
   "skills": [
+    "Android",
     "Kotlin",
     "Jetpack Compose",
     "Compose for TV",
@@ -68,7 +69,10 @@
       "start": "2026-09",
       "location": "Paris, France",
       "description": "Android developer at France Télévisions, the French public broadcaster.",
-      "logo": "logos/france_televisions.png"
+      "logo": "logos/france_televisions.png",
+      "technologies": [
+        "Android"
+      ]
     },
     {
       "company": "Proton",
@@ -87,6 +91,7 @@
         "Also: folders, Explore tab, Growth telemetry, share the app with friends and family"
       ],
       "technologies": [
+        "Android",
         "Kotlin",
         "Jetpack Compose",
         "Clean Architecture",
@@ -109,6 +114,7 @@
         "Perplexity (Android TV): Text-to-Speech with live highlighting of the spoken text, and Clean Architecture on the Data and Domain layers"
       ],
       "technologies": [
+        "Android",
         "Kotlin",
         "Compose for TV",
         "Clean Architecture",
@@ -132,6 +138,7 @@
         "Mentoring: helped an in-house developer level up on modern Android practices"
       ],
       "technologies": [
+        "Android",
         "Kotlin",
         "Jetpack Compose",
         "Clean Architecture",
@@ -158,6 +165,7 @@
         "WebView to native: rebuilt a whole WebView user journey from scratch in Jetpack Compose, with clear performance and UX gains"
       ],
       "technologies": [
+        "Android",
         "Kotlin",
         "Jetpack Compose",
         "Clean Architecture",
@@ -182,6 +190,7 @@
         "Estimated the maintenance work of client projects"
       ],
       "technologies": [
+        "Android",
         "Kotlin",
         "Coroutines & Flow",
         "Clean Architecture",
@@ -207,6 +216,7 @@
         "Fully remote"
       ],
       "technologies": [
+        "Android",
         "Kotlin",
         "Bluetooth",
         "MVVM"
@@ -226,6 +236,7 @@
         "Built in-house C++11 / Qt graphics tools for the R&D team"
       ],
       "technologies": [
+        "Android",
         "Java",
         "Kotlin",
         "Retrofit",
