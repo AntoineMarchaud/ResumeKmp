@@ -24,6 +24,8 @@ data class InfoModel(
     val name: String,
     val job: String,
     val location: String? = null,
+    /** Profile photo, relative to `composeResources/files`: `photo.jpg`. Initials are shown without it. */
+    val photo: String? = null,
     /** Key figures shown in the header. When empty, figures are computed from the resume. */
     val stats: List<StatModel> = emptyList(),
 )

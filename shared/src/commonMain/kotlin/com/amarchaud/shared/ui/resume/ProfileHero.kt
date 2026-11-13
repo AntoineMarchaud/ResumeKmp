@@ -1,5 +1,6 @@
 package com.amarchaud.shared.ui.resume
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -48,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
@@ -63,6 +65,8 @@ import com.amarchaud.shared.data.InfoModel
 import com.amarchaud.shared.data.Language
 import com.amarchaud.shared.data.StatModel
 import com.amarchaud.shared.data.initialsOf
+import com.amarchaud.shared.ui.components.BundledImage
+import com.amarchaud.shared.ui.components.LocalProfilePhoto
 import com.amarchaud.shared.ui.components.Monogram
 import com.amarchaud.shared.ui.components.heroBackground
 import com.amarchaud.shared.ui.i18n.LanguageFlag
@@ -150,14 +154,25 @@ fun ProfileAvatar(name: String, size: Dp, modifier: Modifier = Modifier) {
             )
             .padding(4.dp),
     ) {
-        Monogram(
-            text = initialsOf(name),
-            container = Brush.linearGradient(listOf(colors.heroGlow, colors.heroGlowSecondary)),
-            contentColor = colors.onHero,
-            size = size - 8.dp,
-            shape = CircleShape,
-            textStyle = MaterialTheme.typography.titleLarge,
-        )
+        when (val photo = LocalProfilePhoto.current) {
+            is BundledImage.Loaded -> Image(
+                bitmap = photo.image,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(size - 8.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop,
+            )
+            // Initials when there is no photo, or when it cannot be read.
+            else -> Monogram(
+                text = if (photo == BundledImage.Loading) "" else initialsOf(name),
+                container = Brush.linearGradient(listOf(colors.heroGlow, colors.heroGlowSecondary)),
+                contentColor = colors.onHero,
+                size = size - 8.dp,
+                shape = CircleShape,
+                textStyle = MaterialTheme.typography.titleLarge,
+            )
+        }
     }
 }
 

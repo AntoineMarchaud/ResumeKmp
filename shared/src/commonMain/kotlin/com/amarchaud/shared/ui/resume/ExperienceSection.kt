@@ -34,7 +34,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -62,7 +61,7 @@ import com.amarchaud.shared.data.formattedPeriod
 import com.amarchaud.shared.data.initialsOf
 import com.amarchaud.shared.data.isCurrent
 import com.amarchaud.shared.data.splitDuration
-import com.amarchaud.shared.resources.Res
+import com.amarchaud.shared.ui.components.BundledImage
 import com.amarchaud.shared.ui.components.CountPill
 import com.amarchaud.shared.ui.components.CurrentBadge
 import com.amarchaud.shared.ui.components.MetaItem
@@ -73,6 +72,7 @@ import com.amarchaud.shared.ui.components.SectionHeader
 import com.amarchaud.shared.ui.components.SectionList
 import com.amarchaud.shared.ui.components.TechChip
 import com.amarchaud.shared.ui.components.openSafely
+import com.amarchaud.shared.ui.components.rememberBundledImage
 import com.amarchaud.shared.ui.components.rememberRevealState
 import com.amarchaud.shared.ui.components.staggerDelay
 import com.amarchaud.shared.ui.i18n.LocalStrings
@@ -81,7 +81,6 @@ import com.amarchaud.shared.ui.preview.PreviewData
 import com.amarchaud.shared.ui.theme.ResumeAppTheme
 import com.amarchaud.shared.ui.theme.ResumeTheme
 import kotlinx.datetime.YearMonth
-import org.jetbrains.compose.resources.decodeToImageBitmap
 
 private const val PLAY_STORE_URL = "https://play.google.com/store/apps/details?id="
 
@@ -286,17 +285,11 @@ private fun ExperienceCard(
 /** Company logo when the resume provides one, its initials otherwise. */
 @Composable
 private fun CompanyLogo(experience: ExperienceModel, index: Int) {
-    when (val logo = rememberCompanyLogo(experience.logo)) {
-        is LogoState.Loaded -> LogoTile(image = logo.image)
-        LogoState.Loading -> LogoTile(image = null)
-        LogoState.Missing -> CompanyMonogram(experience = experience, index = index)
+    when (val logo = rememberBundledImage(experience.logo)) {
+        is BundledImage.Loaded -> LogoTile(image = logo.image)
+        BundledImage.Loading -> LogoTile(image = null)
+        BundledImage.Missing -> CompanyMonogram(experience = experience, index = index)
     }
-}
-
-private sealed interface LogoState {
-    data object Loading : LogoState
-    data class Loaded(val image: ImageBitmap) : LogoState
-    data object Missing : LogoState
 }
 
 private val LogoTileHeight = 44.dp
@@ -331,23 +324,6 @@ private fun LogoTile(image: ImageBitmap?) {
             Image(bitmap = image, contentDescription = null, contentScale = ContentScale.Fit)
         }
     }
-}
-
-/** Decodes a logo bundled in the Compose resources (`composeResources/files`). */
-@Composable
-private fun rememberCompanyLogo(path: String?): LogoState {
-    val state by produceState<LogoState>(
-        initialValue = if (path == null) LogoState.Missing else LogoState.Loading,
-        path,
-    ) {
-        if (path != null) {
-            value = runCatching { Res.readBytes("files/$path").decodeToImageBitmap() }
-                .getOrNull()
-                ?.let { LogoState.Loaded(it) }
-                ?: LogoState.Missing
-        }
-    }
-    return state
 }
 
 @Composable

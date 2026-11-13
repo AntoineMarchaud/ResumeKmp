@@ -35,6 +35,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,6 +56,8 @@ import androidx.compose.ui.unit.min
 import com.amarchaud.shared.data.ResumeModel
 import com.amarchaud.shared.data.StatModel
 import com.amarchaud.shared.platform.SystemBarsAppearance
+import com.amarchaud.shared.ui.components.LocalProfilePhoto
+import com.amarchaud.shared.ui.components.rememberBundledImage
 import com.amarchaud.shared.ui.i18n.LocalStrings
 
 @Composable
@@ -91,40 +94,42 @@ internal fun ResumeScreen(
         darkTheme = darkTheme,
     )
 
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-    ) {
-        when (layout) {
-            ResumeLayout.Compact, ResumeLayout.Medium -> CollapsingLayout(
-                resume = resume,
-                stats = stats,
-                section = section,
-                onSectionSelected = { section = it },
-                actions = actions,
-                useRail = layout == ResumeLayout.Medium,
-            )
+    CompositionLocalProvider(LocalProfilePhoto provides rememberBundledImage(resume.info.photo)) {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+        ) {
+            when (layout) {
+                ResumeLayout.Compact, ResumeLayout.Medium -> CollapsingLayout(
+                    resume = resume,
+                    stats = stats,
+                    section = section,
+                    onSectionSelected = { section = it },
+                    actions = actions,
+                    useRail = layout == ResumeLayout.Medium,
+                )
 
-            is ResumeLayout.TwoPane -> TwoPaneLayout(
-                resume = resume,
-                stats = stats,
-                section = section,
-                onSectionSelected = { section = it },
-                actions = actions,
-                paneWidth = layout.paneWidth,
-                hingeWidth = layout.hingeWidth,
-            )
+                is ResumeLayout.TwoPane -> TwoPaneLayout(
+                    resume = resume,
+                    stats = stats,
+                    section = section,
+                    onSectionSelected = { section = it },
+                    actions = actions,
+                    paneWidth = layout.paneWidth,
+                    hingeWidth = layout.hingeWidth,
+                )
 
-            is ResumeLayout.Tabletop -> TabletopLayout(
-                resume = resume,
-                stats = stats,
-                section = section,
-                onSectionSelected = { section = it },
-                actions = actions,
-                topHeight = layout.topHeight,
-                hingeHeight = layout.hingeHeight,
-            )
+                is ResumeLayout.Tabletop -> TabletopLayout(
+                    resume = resume,
+                    stats = stats,
+                    section = section,
+                    onSectionSelected = { section = it },
+                    actions = actions,
+                    topHeight = layout.topHeight,
+                    hingeHeight = layout.hingeHeight,
+                )
+            }
         }
     }
 }

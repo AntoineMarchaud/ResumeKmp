@@ -44,6 +44,9 @@ class BundledResumeTest {
             if (experience.end != null) assertNotNull(experience.endMonth, "${experience.company} has an invalid end")
         }
         assertEquals(1, resume.experiences.count { it.isCurrent }, "Exactly one position should be ongoing")
+        resume.info.photo?.let { photo ->
+            assertTrue(SystemFileSystem.exists(Path("src/commonMain/composeResources/files/$photo")), "Missing photo: $photo")
+        }
         resume.experiences.mapNotNull { it.logo }.forEach { logo ->
             assertTrue(SystemFileSystem.exists(Path("src/commonMain/composeResources/files/$logo")), "Missing logo: $logo")
         }
