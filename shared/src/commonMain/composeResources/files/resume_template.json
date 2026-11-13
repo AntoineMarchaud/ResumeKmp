@@ -4,9 +4,18 @@
     "job": "Freelance Android Developer",
     "location": "Paris, France",
     "stats": [
-      { "value": "19", "label": "Years in software" },
-      { "value": "12", "label": "Years on Android" },
-      { "value": "100M+", "label": "Akinator downloads" }
+      {
+        "value": "19",
+        "label": "Years in software"
+      },
+      {
+        "value": "12",
+        "label": "Years on Android"
+      },
+      {
+        "value": "100M+",
+        "label": "Akinator downloads"
+      }
     ]
   },
   "about": {
@@ -57,7 +66,8 @@
       "role": "Android Developer",
       "start": "2026-09",
       "location": "Paris, France",
-      "description": "Android developer at France Télévisions, the French public broadcaster."
+      "description": "Android developer at France Télévisions, the French public broadcaster.",
+      "logo": "logos/france_televisions.png"
     },
     {
       "company": "Proton",
@@ -83,7 +93,8 @@
         "Hilt",
         "Coroutines & Flow"
       ],
-      "appId": "proton.android.pass"
+      "appId": "proton.android.pass",
+      "logo": "logos/proton.png"
     },
     {
       "company": "Bouygues Telecom",
@@ -103,7 +114,8 @@
         "MVVM",
         "Coroutines & Flow",
         "Text-to-Speech"
-      ]
+      ],
+      "logo": "logos/bouygues_telecom.png"
     },
     {
       "company": "LVMH",
@@ -129,7 +141,8 @@
         "Room",
         "ExoPlayer"
       ],
-      "appId": "com.vuitton.android"
+      "appId": "com.vuitton.android",
+      "logo": "logos/lvmh.png"
     },
     {
       "company": "Stellantis",
@@ -152,7 +165,8 @@
         "Koin",
         "MotionLayout"
       ],
-      "appId": "com.free2move.app"
+      "appId": "com.free2move.app",
+      "logo": "logos/stellantis.png"
     },
     {
       "company": "V-Labs",
@@ -234,29 +248,71 @@
       "technologies": [
         "C++",
         "Visual Studio"
-      ]
+      ],
+      "logo": "logos/ebp.png"
     },
     {
-      "company": "Scalian (ex-Eurogiciel)",
-      "role": "C++ Developer · Video streaming R&D",
-      "start": "2010-04",
+      "company": "MediaKind",
+      "role": "C++ Developer",
+      "start": "2012-02",
       "end": "2013-12",
       "location": "Rennes, France",
-      "description": "Consultant on video streaming projects for several clients.",
       "highlights": [
-        "MediaKind (ex-Envivio), Feb 2012 – Dec 2013: R&D engineer on advanced projects, proofs of concept and new features for the Muse and Halo products",
-        "Broadpeak, Jun 2011 – Feb 2012: MFC / C++ server testing tool",
-        "Vantiva (ex-Technicolor), Feb 2011 – Jun 2011: Linux development of streaming features",
-        "Harmonic (ex-Thomson Video Networks), Apr 2010 – Sep 2010: video streaming features"
+        "R&D engineer on advanced projects (MediaKind, ex-Envivio)",
+        "Proofs of concept and new features for the Muse and Halo video streaming products"
       ],
       "technologies": [
         "C++",
-        "MFC",
-        "Linux",
         "HLS",
         "DASH",
         "Smooth Streaming"
       ]
+    },
+    {
+      "company": "Broadpeak",
+      "role": "C++ Developer",
+      "start": "2011-06",
+      "end": "2012-02",
+      "location": "Rennes, France",
+      "highlights": [
+        "MFC / C++ testing tool for the video delivery servers"
+      ],
+      "technologies": [
+        "C++",
+        "MFC",
+        "Video streaming"
+      ]
+    },
+    {
+      "company": "Vantiva",
+      "role": "C++ Developer",
+      "start": "2011-02",
+      "end": "2011-06",
+      "location": "Rennes, France",
+      "highlights": [
+        "Linux development of video streaming features (Vantiva, ex-Technicolor)"
+      ],
+      "technologies": [
+        "C++",
+        "Linux",
+        "Video streaming"
+      ],
+      "logo": "logos/vantiva.png"
+    },
+    {
+      "company": "Harmonic",
+      "role": "C++ Developer",
+      "start": "2010-04",
+      "end": "2010-09",
+      "location": "Rennes, France",
+      "highlights": [
+        "Video streaming features (Harmonic, ex-Thomson Video Networks)"
+      ],
+      "technologies": [
+        "C++",
+        "Video streaming"
+      ],
+      "logo": "logos/harmonic.png"
     },
     {
       "company": "Proservia (ManpowerGroup)",
@@ -270,7 +326,8 @@
       "technologies": [
         "C++",
         "Video streaming"
-      ]
+      ],
+      "logo": "logos/manpowergroup.png"
     }
   ],
   "education": [
@@ -281,7 +338,13 @@
     }
   ],
   "languages": [
-    { "name": "French", "level": "Native" },
-    { "name": "English", "level": "Professional working" }
+    {
+      "name": "French",
+      "level": "Native"
+    },
+    {
+      "name": "English",
+      "level": "Professional working"
+    }
   ]
 }

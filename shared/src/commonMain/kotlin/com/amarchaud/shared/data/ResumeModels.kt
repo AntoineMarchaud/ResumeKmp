@@ -56,6 +56,8 @@ data class ExperienceModel(
     val technologies: List<String> = emptyList(),
     /** Google Play application id, used to open the store listing. */
     val appId: String? = null,
+    /** Company logo, relative to `composeResources/files`: `logos/acme.png`. */
+    val logo: String? = null,
 )
 
 @Serializable

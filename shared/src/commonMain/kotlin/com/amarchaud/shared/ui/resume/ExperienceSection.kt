@@ -8,7 +8,9 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +25,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -31,20 +34,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.coerceIn
 import androidx.compose.ui.unit.dp
 import com.amarchaud.shared.data.ExperienceModel
 import com.amarchaud.shared.data.currentYearMonth
@@ -68,19 +77,20 @@ import com.amarchaud.shared.ui.components.CountPill
 import com.amarchaud.shared.ui.components.CurrentBadge
 import com.amarchaud.shared.ui.components.MetaItem
 import com.amarchaud.shared.ui.components.Monogram
-import com.amarchaud.shared.ui.components.openSafely
 import com.amarchaud.shared.ui.components.ResumeCard
 import com.amarchaud.shared.ui.components.Reveal
 import com.amarchaud.shared.ui.components.SectionHeader
 import com.amarchaud.shared.ui.components.SectionList
 import com.amarchaud.shared.ui.components.TechChip
+import com.amarchaud.shared.ui.components.openSafely
 import com.amarchaud.shared.ui.components.rememberRevealState
 import com.amarchaud.shared.ui.components.staggerDelay
 import com.amarchaud.shared.ui.icons.AppIcons
 import com.amarchaud.shared.ui.preview.PreviewData
-import com.amarchaud.shared.ui.theme.ResumeTheme
 import com.amarchaud.shared.ui.theme.ResumeAppTheme
+import com.amarchaud.shared.ui.theme.ResumeTheme
 import kotlinx.datetime.YearMonth
+import org.jetbrains.compose.resources.decodeToImageBitmap
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -214,7 +224,7 @@ private fun ExperienceCard(
     ) {
         Column(modifier = Modifier.padding(18.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                CompanyMonogram(experience = experience, index = index)
+                CompanyLogo(experience = experience, index = index)
                 Spacer(modifier = Modifier.width(14.dp))
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
@@ -282,6 +292,73 @@ private fun ExperienceCard(
             }
         }
     }
+}
+
+/** Company logo when the resume provides one, its initials otherwise. */
+@Composable
+private fun CompanyLogo(experience: ExperienceModel, index: Int) {
+    when (val logo = rememberCompanyLogo(experience.logo)) {
+        is LogoState.Loaded -> LogoTile(image = logo.image)
+        LogoState.Loading -> LogoTile(image = null)
+        LogoState.Missing -> CompanyMonogram(experience = experience, index = index)
+    }
+}
+
+private sealed interface LogoState {
+    data object Loading : LogoState
+    data class Loaded(val image: ImageBitmap) : LogoState
+    data object Missing : LogoState
+}
+
+private val LogoTileHeight = 44.dp
+private val LogoTileMaxWidth = 104.dp
+private val LogoTileHorizontalPadding = 8.dp
+private val LogoTileVerticalPadding = 7.dp
+
+/**
+ * Logos sit on a white tile whatever the theme, as most of them are designed for light backgrounds.
+ * The tile follows the logo's aspect ratio, so that wordmarks stay readable.
+ */
+@Composable
+private fun LogoTile(image: ImageBitmap?) {
+    val shape = RoundedCornerShape(14.dp)
+    val width = if (image == null) {
+        LogoTileHeight
+    } else {
+        val contentHeight = LogoTileHeight - LogoTileVerticalPadding * 2
+        (contentHeight * (image.width.toFloat() / image.height) + LogoTileHorizontalPadding * 2)
+            .coerceIn(LogoTileHeight, LogoTileMaxWidth)
+    }
+    Box(
+        modifier = Modifier
+            .size(width = width, height = LogoTileHeight)
+            .clip(shape)
+            .background(Color.White)
+            .border(width = 1.dp, color = ResumeTheme.colors.cardBorder, shape = shape)
+            .padding(horizontal = LogoTileHorizontalPadding, vertical = LogoTileVerticalPadding),
+        contentAlignment = Alignment.Center,
+    ) {
+        if (image != null) {
+            Image(bitmap = image, contentDescription = null, contentScale = ContentScale.Fit)
+        }
+    }
+}
+
+/** Decodes a logo bundled in the Compose resources (`composeResources/files`). */
+@Composable
+private fun rememberCompanyLogo(path: String?): LogoState {
+    val state by produceState<LogoState>(
+        initialValue = if (path == null) LogoState.Missing else LogoState.Loading,
+        path,
+    ) {
+        if (path != null) {
+            value = runCatching { Res.readBytes("files/$path").decodeToImageBitmap() }
+                .getOrNull()
+                ?.let { LogoState.Loaded(it) }
+                ?: LogoState.Missing
+        }
+    }
+    return state
 }
 
 @Composable
