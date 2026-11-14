@@ -81,7 +81,7 @@ internal fun ResumeScreen(
     initialSection: ResumeSection = ResumeSection.About,
     language: LanguageAction? = null,
 ) {
-    val actions = HeaderActions(dynamicColor = dynamicColor, language = language)
+    val actions = HeaderActions(dynamicColor = dynamicColor, language = language, resumePdfUrl = resume.contact.resumePdfUrl)
     var section by rememberSaveable { mutableStateOf(initialSection) }
     val stats = headerStats(resume)
 

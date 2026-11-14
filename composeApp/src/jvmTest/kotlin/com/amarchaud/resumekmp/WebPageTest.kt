@@ -45,9 +45,24 @@ class WebPageTest {
         expected.forEach { text -> assertTrue(text in page, "index.html is missing \"$text\"") }
     }
 
+    /** The resume PDFs are generated with the site (`:resumePdf`), in its `cv` directory. */
+    @Test
+    fun `resume pdfs are the ones generated with the site`() {
+        listOf("resume_template.json", "resume_template_fr.json").forEach { file ->
+            val url = parseResume(read("../shared/src/commonMain/composeResources/files/$file")).contact.resumePdfUrl
+            if (url != null) {
+                assertTrue(url.startsWith("${SITE_URL}cv/") && url.endsWith(".pdf"), "$file: unexpected resume PDF $url")
+            }
+        }
+    }
+
     @Test
     fun `web page keeps the email and phone number away from spam bots`() {
         assertFalse(resume.contact.email in page)
         resume.contact.phone?.let { assertFalse(it in page) }
+    }
+
+    private companion object {
+        const val SITE_URL = "https://antoinemarchaud.github.io/ResumeKmp/"
     }
 }

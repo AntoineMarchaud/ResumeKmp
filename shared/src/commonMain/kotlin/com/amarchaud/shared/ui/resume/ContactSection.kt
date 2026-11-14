@@ -1,10 +1,13 @@
 package com.amarchaud.shared.ui.resume
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +22,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -98,6 +102,7 @@ fun ContactSection(
                 CallToActionCard(
                     message = contact.message ?: LocalStrings.current.contactCtaDefault,
                     onSendEmail = { openUri(emailUri) },
+                    onDownloadResume = contact.resumePdfUrl?.let { url -> { openUri(url) } },
                 )
             }
         }
@@ -128,7 +133,7 @@ fun ContactSection(
 }
 
 @Composable
-private fun CallToActionCard(message: String, onSendEmail: () -> Unit) {
+private fun CallToActionCard(message: String, onSendEmail: () -> Unit, onDownloadResume: (() -> Unit)?) {
     val colors = ResumeTheme.colors
     Column(
         modifier = Modifier
@@ -149,18 +154,36 @@ private fun CallToActionCard(message: String, onSendEmail: () -> Unit) {
             color = colors.onHeroMuted,
         )
         Spacer(modifier = Modifier.height(20.dp))
-        Button(
-            onClick = onSendEmail,
-            modifier = Modifier.keyboardFocusOnly(),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = colors.onHero,
-                contentColor = colors.heroStart,
-            ),
-            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Icon(imageVector = AppIcons.Mail, contentDescription = null, modifier = Modifier.size(18.dp))
-            Spacer(modifier = Modifier.width(10.dp))
-            Text(text = LocalStrings.current.contactSendEmail, style = MaterialTheme.typography.labelLarge)
+            Button(
+                onClick = onSendEmail,
+                modifier = Modifier.keyboardFocusOnly(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colors.onHero,
+                    contentColor = colors.heroStart,
+                ),
+                contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
+            ) {
+                Icon(imageVector = AppIcons.Mail, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(text = LocalStrings.current.contactSendEmail, style = MaterialTheme.typography.labelLarge)
+            }
+            if (onDownloadResume != null) {
+                OutlinedButton(
+                    onClick = onDownloadResume,
+                    modifier = Modifier.keyboardFocusOnly(),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = colors.onHero),
+                    border = BorderStroke(1.dp, colors.onHero.copy(alpha = 0.5f)),
+                    contentPadding = PaddingValues(horizontal = 20.dp, vertical = 12.dp),
+                ) {
+                    Icon(imageVector = AppIcons.Download, contentDescription = null, modifier = Modifier.size(18.dp))
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text(text = LocalStrings.current.downloadResume, style = MaterialTheme.typography.labelLarge)
+                }
+            }
         }
     }
 }

@@ -28,6 +28,8 @@ data class ResumeModel(
 data class InfoModel(
     val name: String,
     val job: String,
+    /** Shorter job title, for the collapsed header (e.g. `Android Developer`); [job] when missing. */
+    val shortJob: String? = null,
     val location: String? = null,
     /** Profile photo, relative to `composeResources/files`: `photo.jpg`. Initials are shown without it. */
     val photo: String? = null,
@@ -86,6 +88,8 @@ data class ContactModel(
     val phone: String? = null,
     val githubUrl: String? = null,
     val linkedInUrl: String? = null,
+    /** The resume as a PDF, offered for download from the header and the contact screen. */
+    val resumePdfUrl: String? = null,
     /** Short call-to-action displayed on the contact screen. */
     val message: String? = null,
 )

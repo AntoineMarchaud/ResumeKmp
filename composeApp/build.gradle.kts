@@ -50,18 +50,22 @@ kotlin {
     }
 }
 
-// WebPageTest reads the web page and the resume directly, so they must invalidate the test results.
+// WebPageTest reads the web files and the resumes directly, so they must invalidate the test results.
 tasks.withType<Test>().configureEach {
-    inputs.files("src/webMain/resources/index.html", "../shared/src/commonMain/composeResources/files/resume_template.json")
-        .withPropertyName("webPageTestFiles")
-        .withPathSensitivity(PathSensitivity.RELATIVE)
+    inputs.dir("src/webMain/resources").withPropertyName("webResources").withPathSensitivity(PathSensitivity.RELATIVE)
+    inputs.dir("../shared/src/commonMain/composeResources/files").withPropertyName("resumeFiles").withPathSensitivity(PathSensitivity.RELATIVE)
 }
 
 // The website: the WebAssembly app, plus the JavaScript app for Apple's WebKit (Safari, and every browser
 // on iOS and iPadOS), where the WebAssembly app runs but its canvas stays blank. index.html picks the bundle.
+// The resume PDFs, generated from the same JSON files by :resumePdf, are published in `cv`.
 tasks.register<Sync>("webDistribution") {
-    description = "Assembles the website, with the WebAssembly app and its JavaScript fallback."
+    description = "Assembles the website, with the WebAssembly app, its JavaScript fallback and the resume PDFs."
     group = "distribution"
+    dependsOn(":resumePdf:resumePdf")
+    from(rootProject.layout.projectDirectory.dir("resumePdf/build/resume/cv")) {
+        into("cv")
+    }
     from(tasks.named("wasmJsBrowserDistribution"))
     from(tasks.named("jsBrowserDistribution")) {
         include("composeApp.js", "composeApp.js.map")

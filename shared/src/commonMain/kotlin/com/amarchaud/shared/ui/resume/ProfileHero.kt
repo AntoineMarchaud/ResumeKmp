@@ -1,5 +1,10 @@
 package com.amarchaud.shared.ui.resume
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -34,6 +39,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +47,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -49,18 +56,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.amarchaud.shared.data.InfoModel
@@ -72,6 +83,7 @@ import com.amarchaud.shared.ui.components.LocalProfilePhoto
 import com.amarchaud.shared.ui.components.Monogram
 import com.amarchaud.shared.ui.components.ResumeCard
 import com.amarchaud.shared.ui.components.heroBackground
+import com.amarchaud.shared.ui.components.openSafely
 import com.amarchaud.shared.ui.i18n.LanguageFlag
 import com.amarchaud.shared.ui.i18n.LocalStrings
 import com.amarchaud.shared.ui.i18n.strings
@@ -92,15 +104,24 @@ class LanguageAction(val selected: Language, val available: List<Language>, val 
 class HeaderActions(
     val dynamicColor: DynamicColorAction? = null,
     val language: LanguageAction? = null,
+    /** The resume as a PDF, in the language displayed. */
+    val resumePdfUrl: String? = null,
 )
 
 @Composable
-private fun HeaderActionsRow(actions: HeaderActions, modifier: Modifier = Modifier) {
+private fun HeaderActionsRow(actions: HeaderActions, modifier: Modifier = Modifier, showResumePdf: Boolean = true) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        AnimatedVisibility(
+            visible = showResumePdf && actions.resumePdfUrl != null,
+            enter = fadeIn() + expandHorizontally(),
+            exit = fadeOut() + shrinkHorizontally(),
+        ) {
+            actions.resumePdfUrl?.let { ResumePdfButton(it) }
+        }
         actions.language?.takeIf { it.available.size > 1 }?.let { LanguageSwitch(it) }
         actions.dynamicColor?.let { DynamicColorToggle(it) }
     }
@@ -202,6 +223,27 @@ private fun LocationChip(location: String, modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.labelMedium,
             color = colors.onHero,
             maxLines = 1,
+        )
+    }
+}
+
+/** Opens the resume PDF: from the first screen, recruiters can forward it to their clients. */
+@Composable
+private fun ResumePdfButton(url: String, modifier: Modifier = Modifier) {
+    val uriHandler = LocalUriHandler.current
+    val colors = ResumeTheme.colors
+    IconButton(
+        onClick = { uriHandler.openSafely(url) },
+        modifier = modifier,
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = colors.heroSurface,
+            contentColor = colors.onHero,
+        ),
+    ) {
+        Icon(
+            imageVector = AppIcons.Download,
+            contentDescription = LocalStrings.current.downloadResume,
+            modifier = Modifier.size(20.dp),
         )
     }
 }
@@ -347,6 +389,40 @@ private fun StatList(stats: List<StatModel>) {
 }
 
 /** Avatar, name and job title. */
+/**
+ * One line, shrinking down to [minFontSize] when needed; when even that does not fit, two lines rather than a
+ * truncated text. On narrow screens (e.g. the LinkedIn in-app browser), wrapped lines at full size would make the
+ * expanded header take most of the screen.
+ */
+@Composable
+private fun FittingText(text: String, style: TextStyle, minFontSize: TextUnit, color: Color) {
+    BoxWithConstraints {
+        val textMeasurer = rememberTextMeasurer()
+        val minStyle = style.copy(fontSize = minFontSize)
+        val fitsOnOneLine = remember(text, minStyle, constraints.maxWidth) {
+            textMeasurer.measure(text, minStyle, softWrap = false, maxLines = 1).size.width <= constraints.maxWidth
+        }
+        if (fitsOnOneLine) {
+            // No ellipsis: auto-size only sees an overflow when the text is clipped.
+            Text(
+                text = text,
+                style = style,
+                color = color,
+                maxLines = 1,
+                autoSize = TextAutoSize.StepBased(minFontSize = minFontSize, maxFontSize = style.fontSize, stepSize = 0.5.sp),
+            )
+        } else {
+            Text(
+                text = text,
+                style = minStyle.copy(lineHeight = minFontSize * 1.35f),
+                color = color,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+    }
+}
+
 @Composable
 private fun HeroIdentity(
     info: InfoModel,
@@ -359,25 +435,9 @@ private fun HeroIdentity(
         ProfileAvatar(name = info.name, size = avatarSize)
         Spacer(modifier = Modifier.width(18.dp))
         Column {
-            // One line each, shrinking only when needed: on narrow screens (e.g. the LinkedIn in-app browser),
-            // wrapped lines would make the expanded header take most of the screen. No ellipsis: auto-size only
-            // sees an overflow when the text is clipped.
-            Text(
-                text = info.name,
-                style = nameStyle,
-                color = colors.onHero,
-                maxLines = 1,
-                autoSize = TextAutoSize.StepBased(minFontSize = 20.sp, maxFontSize = nameStyle.fontSize),
-            )
+            FittingText(text = info.name, style = nameStyle, minFontSize = 20.sp, color = colors.onHero)
             Spacer(modifier = Modifier.height(2.dp))
-            val jobStyle = MaterialTheme.typography.bodyLarge
-            Text(
-                text = info.job,
-                style = jobStyle,
-                color = colors.onHeroMuted,
-                maxLines = 1,
-                autoSize = TextAutoSize.StepBased(minFontSize = 13.sp, maxFontSize = jobStyle.fontSize, stepSize = 0.5.sp),
-            )
+            FittingText(text = info.job, style = MaterialTheme.typography.bodyLarge, minFontSize = 13.sp, color = colors.onHeroMuted)
         }
     }
 }
@@ -398,6 +458,8 @@ fun CollapsingProfileHeader(
 ) {
     val colors = ResumeTheme.colors
     val state = scrollBehavior.state
+    // Once collapsed, the resume download (also on the contact screen) leaves its room to the name.
+    val showResumePdf by remember(state) { derivedStateOf { state.collapsedFraction < 0.5f } }
     val density = LocalDensity.current
     val barHeightPx = with(density) { HeaderBarHeight.roundToPx() }
     // Natural height of the expanded part, measured below; the estimate avoids a jump on first frame.
@@ -485,7 +547,7 @@ fun CollapsingProfileHeader(
                             maxLines = 1,
                         )
                         Text(
-                            text = info.job,
+                            text = info.shortJob ?: info.job,
                             style = MaterialTheme.typography.labelMedium,
                             color = colors.onHeroMuted,
                             maxLines = 1,
@@ -494,7 +556,7 @@ fun CollapsingProfileHeader(
                     }
                 }
             }
-            HeaderActionsRow(actions)
+            HeaderActionsRow(actions, showResumePdf = showResumePdf)
         }
     }
 }

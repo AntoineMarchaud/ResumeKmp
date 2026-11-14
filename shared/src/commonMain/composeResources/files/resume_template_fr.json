@@ -1,7 +1,8 @@
 {
   "info": {
     "name": "Antoine Marchaud",
-    "job": "Développeur Android freelance",
+    "job": "Développeur Android Senior Freelance",
+    "shortJob": "Développeur Android",
     "photo": "photo.jpg",
     "location": "Paris, France",
     "stats": [
@@ -37,6 +38,7 @@
     "email": "antoine.marchaud@gmail.com",
     "githubUrl": "https://github.com/AntoineMarchaud",
     "linkedInUrl": "https://www.linkedin.com/in/antoine-marchaud-android-developer",
+    "resumePdfUrl": "https://antoinemarchaud.github.io/ResumeKmp/cv/Antoine-Marchaud-CV-FR.pdf",
     "message": "Un projet Android ? Écrivez-moi directement par email ou sur LinkedIn."
   },
   "focus": "Android",
@@ -50,6 +52,7 @@
     "Coroutines & Flow",
     "Clean Architecture",
     "MVVM",
+    "MVI",
     "Hilt",
     "Koin",
     "Retrofit",
@@ -69,11 +72,26 @@
       "role": "Développeur Android",
       "start": "2026-09",
       "location": "Paris, France",
-      "description": "Développeur Android chez France Télévisions, le groupe audiovisuel public français.",
-      "logo": "logos/france_televisions.png",
+      "description": "Développeur Android sur l’application franceinfo, au sein de l’équipe mobile de France Télévisions : Kotlin, Clean Architecture et MVI, Jetpack Compose et Galaxy, le design system maison.",
+      "highlights": [
+        "Bloc de recommandation d’articles sur la home, du POC à la mise en production, tracking compris",
+        "Dispositif spécial pour les élections américaines de mi-mandat 2026",
+        "Évolutions des directs en temps réel et du rendu des articles",
+        "Design system Galaxy : intégration des nouvelles versions des composants (cartes, carrousel, boutons, barre de navigation, jeu d’icônes)",
+        "Modernisation : migration du dernier code Java vers Kotlin pour préparer le partage de la logique métier avec Kotlin Multiplatform, de Dagger 2 vers Koin, et d’écrans XML vers Jetpack Compose (paramètres, météo, bottom sheets)",
+        "Widgets d’écran d’accueil réécrits avec Jetpack Glance ; retrait de dépendances historiques (RxJava 2, kapt, OkHttp 2…)",
+        "Qualité : tests unitaires, règles d’architecture vérifiées par Konsist, ktlint et detekt, identifiants d’automatisation pour les tests QA, accessibilité, correction de crashs et de régressions en production"
+      ],
       "technologies": [
-        "Android"
-      ]
+        "Android",
+        "Kotlin",
+        "Jetpack Compose",
+        "Clean Architecture",
+        "MVI",
+        "Koin",
+        "Jetpack Glance"
+      ],
+      "logo": "logos/france_televisions.png"
     },
     {
       "company": "Proton",

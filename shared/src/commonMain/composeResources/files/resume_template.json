@@ -1,7 +1,8 @@
 {
   "info": {
     "name": "Antoine Marchaud",
-    "job": "Freelance Android Developer",
+    "job": "Senior Freelance Android Developer",
+    "shortJob": "Android Developer",
     "photo": "photo.jpg",
     "location": "Paris, France",
     "stats": [
@@ -37,6 +38,7 @@
     "email": "antoine.marchaud@gmail.com",
     "githubUrl": "https://github.com/AntoineMarchaud",
     "linkedInUrl": "https://www.linkedin.com/in/antoine-marchaud-android-developer",
+    "resumePdfUrl": "https://antoinemarchaud.github.io/ResumeKmp/cv/Antoine-Marchaud-CV-EN.pdf",
     "message": "Got an Android project? Reach out directly by email or on LinkedIn."
   },
   "focus": "Android",
@@ -50,6 +52,7 @@
     "Coroutines & Flow",
     "Clean Architecture",
     "MVVM",
+    "MVI",
     "Hilt",
     "Koin",
     "Retrofit",
@@ -69,11 +72,26 @@
       "role": "Android Developer",
       "start": "2026-09",
       "location": "Paris, France",
-      "description": "Android developer at France Télévisions, the French public broadcaster.",
-      "logo": "logos/france_televisions.png",
+      "description": "Android developer on the franceinfo app, in the France Télévisions mobile team: Kotlin, Clean Architecture and MVI, Jetpack Compose and Galaxy, the in-house design system.",
+      "highlights": [
+        "Article recommendations block on the home screen, from proof of concept to production, tracking included",
+        "Special coverage for the 2026 US midterm elections",
+        "Live coverage updates in real time and article rendering improvements",
+        "Galaxy design system: integration of the new cards, carousel, buttons, navigation bar and icon set",
+        "Modernization: last Java code migrated to Kotlin to prepare sharing business logic with Kotlin Multiplatform, Dagger 2 replaced by Koin, XML screens migrated to Jetpack Compose (settings, weather, bottom sheets)",
+        "Home screen widgets rewritten with Jetpack Glance; legacy dependencies removed (RxJava 2, kapt, OkHttp 2…)",
+        "Quality: unit tests, architecture rules checked by Konsist, ktlint and detekt, automation identifiers for QA tests, accessibility, production crash and regression fixes"
+      ],
       "technologies": [
-        "Android"
-      ]
+        "Android",
+        "Kotlin",
+        "Jetpack Compose",
+        "Clean Architecture",
+        "MVI",
+        "Koin",
+        "Jetpack Glance"
+      ],
+      "logo": "logos/france_televisions.png"
     },
     {
       "company": "Proton",
