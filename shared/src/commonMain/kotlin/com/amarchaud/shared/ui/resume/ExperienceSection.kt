@@ -58,14 +58,15 @@ import com.amarchaud.shared.data.splitDuration
 import com.amarchaud.shared.ui.components.BundledImage
 import com.amarchaud.shared.ui.components.CountPill
 import com.amarchaud.shared.ui.components.CurrentBadge
+import com.amarchaud.shared.ui.components.LogoTile
 import com.amarchaud.shared.ui.components.MetaItem
 import com.amarchaud.shared.ui.components.Monogram
-import com.amarchaud.shared.ui.components.LogoTile
 import com.amarchaud.shared.ui.components.ResumeCard
 import com.amarchaud.shared.ui.components.Reveal
 import com.amarchaud.shared.ui.components.SectionHeader
 import com.amarchaud.shared.ui.components.SectionList
 import com.amarchaud.shared.ui.components.TechChip
+import com.amarchaud.shared.ui.components.keyboardFocusOnly
 import com.amarchaud.shared.ui.components.openSafely
 import com.amarchaud.shared.ui.components.rememberBundledImage
 import com.amarchaud.shared.ui.components.rememberRevealState
@@ -203,7 +204,9 @@ private fun ExperienceCard(
             modifier = Modifier
                 .then(
                     if (hasDetails) {
-                        Modifier.clickable(onClickLabel = toggleLabel) { expanded = !expanded }
+                        Modifier
+                            .keyboardFocusOnly()
+                            .clickable(onClickLabel = toggleLabel) { expanded = !expanded }
                     } else {
                         Modifier
                     },
@@ -337,6 +340,7 @@ private fun ExperienceDetails(experience: ExperienceModel) {
         experience.appId?.let { appId ->
             Spacer(modifier = Modifier.height(14.dp))
             FilledTonalButton(
+                modifier = Modifier.keyboardFocusOnly(),
                 onClick = { uriHandler.openSafely(PLAY_STORE_URL + appId) },
                 contentPadding = PaddingValues(start = 16.dp, end = 18.dp, top = 10.dp, bottom = 10.dp),
             ) {

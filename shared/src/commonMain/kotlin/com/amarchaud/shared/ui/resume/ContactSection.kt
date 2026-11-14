@@ -45,6 +45,7 @@ import com.amarchaud.shared.ui.components.Reveal
 import com.amarchaud.shared.ui.components.SectionHeader
 import com.amarchaud.shared.ui.components.SectionList
 import com.amarchaud.shared.ui.components.heroBackground
+import com.amarchaud.shared.ui.components.keyboardFocusOnly
 import com.amarchaud.shared.ui.components.openSafely
 import com.amarchaud.shared.ui.components.rememberRevealState
 import com.amarchaud.shared.ui.components.staggerDelay
@@ -150,6 +151,7 @@ private fun CallToActionCard(message: String, onSendEmail: () -> Unit) {
         Spacer(modifier = Modifier.height(20.dp))
         Button(
             onClick = onSendEmail,
+            modifier = Modifier.keyboardFocusOnly(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = colors.onHero,
                 contentColor = colors.heroStart,
@@ -172,6 +174,7 @@ private fun ContactRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .keyboardFocusOnly()
             .clickable(onClickLabel = link.label, onClick = onClick)
             .padding(start = 18.dp, end = 8.dp, top = 14.dp, bottom = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -220,6 +223,7 @@ private fun CopyEmailButton(email: String) {
         }
     }
     IconButton(
+        modifier = Modifier.keyboardFocusOnly(),
         onClick = {
             scope.launch { clipboard.setClipEntry(plainTextClipEntry(email)) }
             copied = true
